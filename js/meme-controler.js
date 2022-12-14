@@ -22,9 +22,7 @@ function onInit() {
     gCtx.strokeStyle = document.querySelector('input[name="border-color"]').value
 }
 
-function popo(img) {
-    console.log('img:', img)
-}
+
 
 
 
@@ -35,18 +33,22 @@ function setMemeTxt() {
     // elInput.value = ''
     const meme = getMeme()
     setLineTxt(value)
-    onImgSelect(gCurrElImg)
+    renderMeme()
 }
 
 function renderMeme() {
+    gCtx.drawImage(gCurrElImg, 0, 0, gElCanvas.width, gElCanvas.height)
     const meme = getMeme()
     drawText(meme)
 }
 
 function setImg(elImg) {
-    if (gCurrElImg !== elImg) gCurrElImg = elImg
-    gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
+    gCurrElImg = elImg
+    const meme = getMeme()
+    meme.selectedImgId = elImg.id
 }
+
+
 
 
 function renderTextColor() {
@@ -56,28 +58,25 @@ function renderTextColor() {
 
 
 function drawText(meme) {
-    console.log('here');
     const lineIdx = meme.selectedLineIdx
     const line = meme.lines[lineIdx]
     gCtx.textAlign = line.align
     gCtx.lineWidth = 2
+    gCtx.font =line.size + "px " + line.style
     // gCtx.strokeStyle = line.borderColor
     // gCtx.fillStyle = line.color
     const text = line.txt
     if (meme.selectedLineIdx === 0) {
-        gCtx.font = "40px Impact"
         gCtx.textBaseline = 'top'
         gCtx.fillText(text, 0, 0) // Draws (fills) a given text at the given (x, y) position.
         gCtx.strokeText(text, 0, 0)
     }
     else if (meme.selectedLineIdx === 1) {
-        gCtx.font = "40px Impact"
-        gCtx.textBaseline = 'bottom'
+        gCtx.textBaseline = 'middle'
         gCtx.fillText(text, 0, gElCanvas.height) // Draws (fills) a given text at the given (x, y) position.
         gCtx.strokeText(text, 0, gElCanvas.height)
     }
     else {
-        gCtx.font = "40px Impact"
         gCtx.textBaseline = 'bottom'
         gCtx.fillText(text, 0, gElCanvas.height / 2) // Draws (fills) a given text at the given (x, y) position.
         gCtx.strokeText(text, 0, gElCanvas.height / 2)
@@ -87,7 +86,13 @@ function drawText(meme) {
 }
 
 
-
+function onChangeFontSize(value){
+    const meme = getMeme()
+    const lineIdx = meme.selectedLineIdx
+    const line = meme.lines[lineIdx]
+    line.size += value
+    renderMeme()
+}
 
 function setBorderColor(value) {
     gCtx.strokeStyle = value

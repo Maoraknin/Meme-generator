@@ -3,9 +3,9 @@
 let gImgs = [
     { id: 1, url: 'img/1.jpg', keywords: ['Trump', 'Celebrity'] },
     { id: 2, url: 'img/2.jpg', keywords: ['Dog', 'Cute'] },
-    { id: 2, url: 'img/3.jpg', keywords: ['Dog', 'Cute', 'Baby', 'Sleep'] },
-    { id: 2, url: 'img/4.jpg', keywords: ['Cat', 'Cute', 'Sleep'] },
-    { id: 2, url: 'img/5.jpg', keywords: ['Boy', 'Cute', 'Success'] },
+    { id: 3, url: 'img/3.jpg', keywords: ['Dog', 'Cute', 'Baby', 'Sleep'] },
+    { id: 4, url: 'img/4.jpg', keywords: ['Cat', 'Cute', 'Sleep'] },
+    { id: 5, url: 'img/5.jpg', keywords: ['Boy', 'Cute', 'Success'] },
 ];
 
 
@@ -20,8 +20,10 @@ let gMeme = {
     lines: [
         {
             txt: 'write Something',
-            size: 20,
-            align: 'left'
+            size: 40,
+            align: 'left',
+            style: 'Impact',
+
         },
         // {
         //     txt: 'I sometimes eat pizza',
