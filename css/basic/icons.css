@@ -1,0 +1,47 @@
+.fa::before {
+    font-family: fa;
+    color: white;
+}
+
+.fa.facebook::before {
+    content: "\f39e";
+    text-decoration: none;
+}
+
+.fa.instagram::before {
+    content: "\f16d";
+}
+
+.fa.linkedin::before {
+    content: "\f0e1";
+}
+
+.social-links .facebook {
+    background-color: #516fad;
+
+}
+
+.social-links .facebook:hover {
+    background-color: #3e578a;
+
+}
+
+.social-links .linkedin {
+    background-color: #0077b5;
+
+}
+
+.social-links .linkedin:hover {
+    background-color: #005481;
+
+}
+
+.social-links .instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f09433', endColorstr='#bc1888', GradientType=1);
+
+}
+
+.social-links .instagram:hover{
+    background: linear-gradient(45deg, #c87b29 0%, #c25730 25%, #ac1d33 50%, #9d1a4e 75%, #93126a 100%);
+}

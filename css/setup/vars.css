@@ -1,0 +1,17 @@
+
+:root {
+    /* pallete */
+    /* brand color */
+    --clr0: #FF9826;
+    /* text color */
+    --clr1: #989898;
+    /* background color */
+    --clr2: #FFFFFF;
+
+
+    /* bp */
+    --s: 600px;
+    --m: 740px;
+    --l: 980px;
+    --xl: 1200px;
+}

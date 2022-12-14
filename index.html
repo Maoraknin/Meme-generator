@@ -9,35 +9,82 @@
     <title>Document</title>
 </head>
 
-<body onload="onInit()">
-    <div class="main-container">
-        <div class="canvas-container">
-            <canvas id="my-canvas" height="450" width="450"></canvas>
+<body onload="onInit()" class="main-layout">
+
+    <!-- <div class="main-screen full"></div> -->
+
+    <header class="main-header full">
+        <div class="header-container flex align-center space-between">
+            <img class="logo" src="design/logo.svg" alt="">
+            <nav class="main-nav">
+                <ul class="flex clean-list nav-list">
+                    <li><a class="nav-link" href="#">Memes</a></li>
+                    <li><a class="nav-link active" href="#">Gallery</a></li>
+                    <li><a class="nav-link" href="#">About</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle-btn" onclick="toggleMenu()">☰</button>
         </div>
-        <div class="input-container">
-            <input type="text" placeholder="writeSomthing" id="meme-text" onchange="setMemeTxt(this)">
-            <input type="color" name="border-color" value="#000000" onchange="setBorderColor(this.value)">
-            <input type="color" name="fill-color" value="#ffffff" onchange="setFillColor(this.value)">
-            <button class="increase-btn" onclick="onChangeFontSize(1)">increase</button>
-            <button class="decrease-btn" onclick="onChangeFontSize(-1)">decrease</button>
-            <!-- <button class="save-btn">Save</button> -->
-            <!-- <button class="clear-btn" onclick="clearCanvas()">Clear</button> -->
-            <!-- <button class="about-btn">About</button> -->
-            <!-- <a href="#" class="btn" onclick="downloadCanvas(this)" download="my-canvas.jpg">Download</a> -->
-            <!-- <input type="file" class="file-input btn" name="image" onchange="onImgInput(event)" /> -->
-            <!-- <button class="btn" onclick="onUploadImg()">Upload to facebook</button> -->
+    </header>
+
+    <div class="meme-lab">
+        <!-- <button onclick="toggleModal()" class="close-modal-btn">&#10005;</button> -->
+        <div class="main-container">
+            <div class="canvas-container">
+                <canvas id="my-canvas" height="450" width="450"></canvas>
+            </div>
+            <div class="input-container">
+                <input type="text" placeholder="Write somthing..." id="meme-text" onchange="setMemeTxt(this)">
+                <input type="color" name="border-color" value="#000000" onchange="setBorderColor(this.value)">
+                <input type="color" name="fill-color" value="#ffffff" onchange="setFillColor(this.value)">
+                <!-- <button>cdc</button> -->
+                <button class="increase-btn" onclick="onChangeFontSize(1)">increase</button>
+                <button class="decrease-btn" onclick="onChangeFontSize(-1)">decrease</button>
+                <button class="switch-line-btn" onclick="onSwitchLine()">switch line</button>
+                <button class="btn" onclick="onUploadImg()">Upload to facebook</button>
+                <!-- <button class="save-btn">Save</button> -->
+                <!-- <button class="clear-btn" onclick="clearCanvas()">Clear</button> -->
+                <!-- <button class="about-btn">About</button> -->
+                <!-- <a href="#" class="btn" onclick="downloadCanvas(this)" download="my-canvas.jpg">Download</a> -->
+                <!-- <input type="file" class="file-input btn" name="image" onchange="onImgInput(event)" /> -->
+
+                </div>
 
         </div>
-
     </div>
 
 
-    <div class="img-container"></div>
+
+
+    <main class="img-container"></main>
 
 
 
 
+    <footer class="main-layout-footer flex full">
+        <img class="logo" src="design/logo.svg" alt="">
+        <small>© 2022 Meme Generator - All Rights Reserved - <span>Maor Aknin</span></small>
+        <ul class="social-links clean-list flex align-items space-between">
+            <li><a href="#" class="fa facebook"></a></li>
+            <li><a href="#" class="fa instagram"></a></li>
+            <li><a href="#" class="fa linkedin"></a></li>
+        </ul>
+    </footer>
 
+    <script>
+
+
+        /////////////////////////////PROBLEM IN MOBILE////////////////////////////
+
+        function toggleMenu() {
+            console.log(document.body.classList.contains('modal-open'));
+            if (document.body.classList.contains('modal-open')) return
+            console.log(document.body.classList.contains('menu-open'));
+            document.body.classList.toggle('menu-open')
+            document.querySelector('.main-screen').addEventListener('click', toggleMenu)
+        }
+
+    </script>
 
 
     <script src="js/service/gallery-service.js"></script>

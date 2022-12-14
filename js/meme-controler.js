@@ -39,13 +39,14 @@ function setMemeTxt() {
 function renderMeme() {
     gCtx.drawImage(gCurrElImg, 0, 0, gElCanvas.width, gElCanvas.height)
     const meme = getMeme()
-    drawText(meme)
-}
-
-function setImg(elImg) {
-    gCurrElImg = elImg
-    const meme = getMeme()
-    meme.selectedImgId = elImg.id
+    drawText(meme.lines[0], 'top', 0, 0)
+    drawText(meme.lines[1], 'bottom', 0, gElCanvas.height )
+    // meme.lines.map(line =>{
+    //     drawText(meme,line)
+    //     meme.selectedLineIdx++
+    //     if(meme.selectedLineIdx === meme.lines.length) meme.selectedLineIdx = 0
+    // })    
+    // console.log(meme.selectedLineIdx);
 }
 
 
@@ -57,42 +58,64 @@ function renderTextColor() {
 }
 
 
-function drawText(meme) {
-    const lineIdx = meme.selectedLineIdx
-    const line = meme.lines[lineIdx]
+function drawText(line, baselineValue, x, y) {
+    
+    // const line = _getMemeLine()
     gCtx.textAlign = line.align
     gCtx.lineWidth = 2
     gCtx.font =line.size + "px " + line.style
     // gCtx.strokeStyle = line.borderColor
     // gCtx.fillStyle = line.color
     const text = line.txt
-    if (meme.selectedLineIdx === 0) {
-        gCtx.textBaseline = 'top'
-        gCtx.fillText(text, 0, 0) // Draws (fills) a given text at the given (x, y) position.
-        gCtx.strokeText(text, 0, 0)
-    }
-    else if (meme.selectedLineIdx === 1) {
-        gCtx.textBaseline = 'middle'
-        gCtx.fillText(text, 0, gElCanvas.height) // Draws (fills) a given text at the given (x, y) position.
-        gCtx.strokeText(text, 0, gElCanvas.height)
-    }
-    else {
-        gCtx.textBaseline = 'bottom'
-        gCtx.fillText(text, 0, gElCanvas.height / 2) // Draws (fills) a given text at the given (x, y) position.
-        gCtx.strokeText(text, 0, gElCanvas.height / 2)
-    }
+    // if (meme.selectedLineIdx === 0) {
+        gCtx.textBaseline = baselineValue
+        gCtx.fillText(text, x, y) // Draws (fills) a given text at the given (x, y) position.
+        gCtx.strokeText(text, x, y)
+    // }
+    // else if (meme.selectedLineIdx === 1) {
+    //     gCtx.textBaseline = 'bottom'
+    //     gCtx.fillText(text, 0, gElCanvas.height) // Draws (fills) a given text at the given (x, y) position.
+    //     gCtx.strokeText(text, 0, gElCanvas.height)
+    // }
+    // else {
+    //     gCtx.textBaseline = 'middle'
+    //     gCtx.fillText(text, 0, gElCanvas.height / 2) // Draws (fills) a given text at the given (x, y) position.
+    //     gCtx.strokeText(text, 0, gElCanvas.height / 2)
+    // }
 
     // Draws (strokes) a given text at the given (x, y) position.
 }
 
+function onSwitchLine(){
+    const meme = getMeme()
+    meme.selectedLineIdx++
+    if(meme.selectedLineIdx === meme.lines.length) meme.selectedLineIdx = 0
+    const elInput = document.querySelector('#meme-text')
+    elInput.value = meme.lines[meme.selectedLineIdx].txt
+}
+
 
 function onChangeFontSize(value){
-    const meme = getMeme()
-    const lineIdx = meme.selectedLineIdx
-    const line = meme.lines[lineIdx]
+    const line = _getMemeLine()
     line.size += value
     renderMeme()
 }
+
+
+
+function onUploadImg() {
+    const imgDataUrl = gElCanvas.toDataURL('image/jpeg') // Gets the canvas content as an image format
+
+    // A function to be called if request succeeds
+    function onSuccess(uploadedImgUrl) {
+        // Encode the instance of certain characters in the url
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}`)
+    }
+    // Send the image to the server
+    doUploadImg(imgDataUrl, onSuccess)
+}
+
 
 function setBorderColor(value) {
     gCtx.strokeStyle = value
@@ -105,22 +128,31 @@ function setFillColor(value) {
 
 
 
-function draw(ev) {
-    console.log(ev);
-    const pos = getEvPos(ev)
 
-    switch (gCurrShape) {
-        case 'triangle':
-            drawTriangle(pos.x, pos.y)
-            break
-        case 'rect':
-            drawRect(pos.x, pos.y)
-            break
-        case 'arc':
-            drawArc(pos.x, pos.y)
-            break
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -190,7 +222,12 @@ function getEvPos(ev) {
 }
 
 
-
+function _getMemeLine(){
+    const meme = getMeme()
+    const lineIdx = meme.selectedLineIdx
+    const line = meme.lines[lineIdx]
+    return line
+}
 
 
 
@@ -238,15 +275,3 @@ function getEvPos(ev) {
 
 
 
-// function onUploadImg() {
-//     const imgDataUrl = gElCanvas.toDataURL('image/jpeg') // Gets the canvas content as an image format
-
-//     // A function to be called if request succeeds
-//     function onSuccess(uploadedImgUrl) {
-//         // Encode the instance of certain characters in the url
-//         const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-//         window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}`)
-//     }
-//     // Send the image to the server
-//     doUploadImg(imgDataUrl, onSuccess)
-// }
