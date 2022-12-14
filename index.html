@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+
+<body onload="onInit()">
+    <div class="main-container">
+        <div class="canvas-container">
+            <canvas id="my-canvas" height="450" width="450"></canvas>
+        </div>
+    <div class="input-container">
+        <input type="text" placeholder="writeSomthing" id="meme-text" onchange="setMemeTxt(this)">
+        <input type="color" name="border-color" value="#000000" onchange="setBorderColor(this.value)">
+            <input type="color" name="fill-color" value="#ffffff" onchange="setFillColor(this.value)">
+            <!-- <button class="save-btn">Save</button> -->
+            <!-- <button class="clear-btn" onclick="clearCanvas()">Clear</button> -->
+            <!-- <button class="about-btn">About</button> -->
+            <!-- <a href="#" class="btn" onclick="downloadCanvas(this)" download="my-canvas.jpg">Download</a> -->
+            <!-- <input type="file" class="file-input btn" name="image" onchange="onImgInput(event)" /> -->
+            <!-- <button class="btn" onclick="onUploadImg()">Upload to facebook</button> -->
+
+    </div>
+  
+</div>
+
+
+<div class="img-container"></div>
+
+
+
+
+
+
+
+    <script src="js/service/gallery-service.js"></script>
+    <script src="js/service/meme-service.js"></script>
+    <script src="js/meme-controler.js"></script>
+    <script src="js/gallery-controler.js"></script>
+</body>
+
+</html>
