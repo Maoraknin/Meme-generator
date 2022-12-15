@@ -9,38 +9,22 @@ let gIsPressed = false
 
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 
-
-function onInit() {
-    renderGallery()
-    gElCanvas = document.getElementById('my-canvas')
-    gCtx = gElCanvas.getContext('2d')
-    addMouseListeners()
-    addTouchListeners()
-    document.querySelector('#meme-text').addEventListener("keyup", setMemeTxt, true);
-
-    gCtx.fillStyle = document.querySelector('input[name="fill-color"]').value
-    gCtx.strokeStyle = document.querySelector('input[name="border-color"]').value
-}
-
-
-
-
-
 function setMemeTxt() {
     const elInput = document.querySelector('#meme-text')
     const value = elInput.value
-    console.log('value:',value)
+    console.log('value:', value)
     // elInput.value = ''
-    const meme = getMeme()
+    // const meme = getMeme()
     setLineTxt(value)
-    renderMeme()
+    renderMeme(gCurrElImg)
 }
 
-function renderMeme() {
-    gCtx.drawImage(gCurrElImg, 0, 0, gElCanvas.width, gElCanvas.height)
+function renderMeme(img) {
+    console.log(img);
+    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
     const meme = getMeme()
-    drawText(meme.lines[0], 'top', 0, 0)
-    drawText(meme.lines[1], 'bottom', 0, gElCanvas.height )
+    drawText(meme.lines[0], 'top')
+    drawText(meme.lines[1], 'bottom')
     // meme.lines.map(line =>{
     //     drawText(meme,line)
     //     meme.selectedLineIdx++
@@ -58,77 +42,130 @@ function renderTextColor() {
 }
 
 
-function drawText(line, baselineValue, x, y) {
-    
-    // const line = _getMemeLine()
+function drawText(line, baselineValue) {
+
     gCtx.textAlign = line.align
     gCtx.lineWidth = 2
-    gCtx.font =line.size + "px " + line.style
-    // gCtx.strokeStyle = line.borderColor
-    // gCtx.fillStyle = line.color
+    gCtx.font = line.size + "px " + line.style
     const text = line.txt
+    gCtx.textBaseline = baselineValue
+    const x = line.x
+    const y = line.y
+    gCtx.fillText(text, x, y)
+    gCtx.strokeText(text, x, y)
     // if (meme.selectedLineIdx === 0) {
-        gCtx.textBaseline = baselineValue
-        gCtx.fillText(text, x, y) // Draws (fills) a given text at the given (x, y) position.
-        gCtx.strokeText(text, x, y)
     // }
     // else if (meme.selectedLineIdx === 1) {
     //     gCtx.textBaseline = 'bottom'
-    //     gCtx.fillText(text, 0, gElCanvas.height) // Draws (fills) a given text at the given (x, y) position.
+    //     gCtx.fillText(text, 0, gElCanvas.height)
     //     gCtx.strokeText(text, 0, gElCanvas.height)
     // }
     // else {
     //     gCtx.textBaseline = 'middle'
-    //     gCtx.fillText(text, 0, gElCanvas.height / 2) // Draws (fills) a given text at the given (x, y) position.
+    //     gCtx.fillText(text, 0, gElCanvas.height / 2)
     //     gCtx.strokeText(text, 0, gElCanvas.height / 2)
-    // }
-
-    // Draws (strokes) a given text at the given (x, y) position.
+    // 
 }
 
-function onSwitchLine(){
+function onSwitchLine() {
     const meme = getMeme()
     meme.selectedLineIdx++
-    if(meme.selectedLineIdx === meme.lines.length) meme.selectedLineIdx = 0
+    if (meme.selectedLineIdx === meme.lines.length){
+        meme.selectedLineIdx = 0
+        document.querySelector('.first-row').classList.add('active')
+        document.querySelector('.second-row').classList.remove('active')
+    }else{
+        document.querySelector('.second-row').classList.add('active')
+        document.querySelector('.first-row').classList.remove('active')
+
+    }
     const elInput = document.querySelector('#meme-text')
     elInput.value = meme.lines[meme.selectedLineIdx].txt
 }
 
+function onChangeFontFamily(value){
+    const line = _getMemeLine()
+    line.style = value
+    renderMeme(gCurrElImg)
+}
 
-function onChangeFontSize(value){
+function onClearLine() {
+    const elInput = document.querySelector('#meme-text')
+    elInput.value = ''
+    const line = _getMemeLine()
+    line.txt = ''
+    renderMeme(gCurrElImg)
+}
+
+
+function onChangeFontSize(value) {
     const line = _getMemeLine()
     line.size += value
-    renderMeme()
+    renderMeme(gCurrElImg)
 }
 
 
 
-function onUploadImg() {
-    const imgDataUrl = gElCanvas.toDataURL('image/jpeg') // Gets the canvas content as an image format
-
-    // A function to be called if request succeeds
-    function onSuccess(uploadedImgUrl) {
-        // Encode the instance of certain characters in the url
-        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}`)
-    }
-    // Send the image to the server
-    doUploadImg(imgDataUrl, onSuccess)
-}
 
 
 function setBorderColor(value) {
+    // const line = _getMemeLine()
     gCtx.strokeStyle = value
+    renderMeme(gCurrElImg)
 }
 
 
 function setFillColor(value) {
+    // const line = _getMemeLine()
     gCtx.fillStyle = value
+    renderMeme(gCurrElImg)
+}
+
+function setAlignItems(value) {
+    const line = _getMemeLine()
+    line.align = value
+    if (value === 'right') line.x = gElCanvas.width
+    else if (value === 'center') line.x = gElCanvas.width / 2
+    else line.x = 0
+    renderMeme(gCurrElImg)
+
+}
+
+function renderImgFromUser(img){
+    gCurrElImg = img
+    renderMeme(gCurrElImg)
+}
+
+function onImgInput(ev) {
+    loadImageFromInput(ev, renderImgFromUser)
+}
+
+
+function loadImageFromInput(ev, onImageReady) {
+    const reader = new FileReader()
+    // After we read the file
+    reader.onload = (event) => {
+        let img = new Image() // Create a new html img element
+        img.src = event.target.result
+        img.onload = () => onImageReady(img)
+    }
+
+    reader.readAsDataURL(ev.target.files[0]) // Read the file we picked
+
 }
 
 
 
+// FACEBOOK SHARE
 
+function onUploadImg() {
+    const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
+    function onSuccess(uploadedImgUrl) {
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}`)
+    }
+    doUploadImg(imgDataUrl, onSuccess)
+}
 
 
 
@@ -169,14 +206,6 @@ function addTouchListeners() {
     gElCanvas.addEventListener('touchstart', onDown)
     elContainer.addEventListener('touchend', onUp)
 }
-
-
-
-
-
-
-
-
 
 
 
@@ -222,7 +251,7 @@ function getEvPos(ev) {
 }
 
 
-function _getMemeLine(){
+function _getMemeLine() {
     const meme = getMeme()
     const lineIdx = meme.selectedLineIdx
     const line = meme.lines[lineIdx]
@@ -231,46 +260,16 @@ function _getMemeLine(){
 
 
 
+// DOWNLOAD CANVAS
 
-
-// function clearCanvas() {
-//     const colorBox = gCtx.fillStyle
-//     gCtx.fillStyle = '#ffffff'
-//     //Clear the canvas,  fill it with grey background
-//     gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
-//     setFillColor(colorBox)
-// }
-
-
-// function downloadCanvas(elLink) {
-//     const canvasContent = gElCanvas.toDataURL('canvas/jpeg') // image/jpeg the default format
-//     elLink.href = canvasContent
-// }
+function downloadCanvas(elLink) {
+    const canvasContent = gElCanvas.toDataURL('canvas/jpeg') // image/jpeg the default format
+    elLink.href = canvasContent
+}
 
 
 
 
-// function onImgInput(ev) {
-//     loadImageFromInput(ev, renderImg)
-// }
-
-
-
-
-
-
-// function loadImageFromInput(ev, onImageReady) {
-//     const reader = new FileReader()
-//     // After we read the file
-//     reader.onload = (event) => {
-//         let img = new Image() // Create a new html img element
-//         img.src = event.target.result
-//         img.onload = () => onImageReady(img)
-//     }
-
-//     reader.readAsDataURL(ev.target.files[0]) // Read the file we picked
-
-// }
 
 
 

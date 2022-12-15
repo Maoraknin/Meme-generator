@@ -10,6 +10,22 @@
 }
 
 @font-face {
-    font-family: fa;
+    font-family: roboto;
+    src: url("../../fonts/Roboto-Regular.ttf");
+}
+
+@font-face {
+    font-family: roboto-medium;
+    src: url("../../fonts/Roboto-Medium.ttf");
+}
+
+@font-face {
+    font-family: fa-brands;
     src: url("../../fonts/font-awesome/fa-brands-400.ttf");
 }
+
+@font-face {
+    font-family: fa-solids;
+    src: url("../../fonts/font-awesome/fa-solid-900.ttf");
+}
+
