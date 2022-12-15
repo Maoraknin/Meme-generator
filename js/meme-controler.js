@@ -13,8 +13,6 @@ const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 function setMemeTxt() {
     const elInput = document.querySelector('#meme-text')
     const value = elInput.value
-    // elInput.value = ''
-    // const meme = getMeme()
     setLineTxt(value)
     renderMeme(gCurrElImg)
 }
@@ -22,26 +20,29 @@ function setMemeTxt() {
 function renderMeme(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
     const meme = getMeme()
-    console.log(meme.lines[0].x);
-    drawText(meme.lines[0], 'top', meme.lines[0].x, meme.lines[0].y)
-    drawText(meme.lines[1], 'bottom', meme.lines[1].x, meme.lines[1].y)
-
-
-    // meme.lines.map(line =>{
-    //     drawText(meme,line)
-    //     meme.selectedLineIdx++
-    //     if(meme.selectedLineIdx === meme.lines.length) meme.selectedLineIdx = 0
-    // })    
-    // console.log(meme.selectedLineIdx);
+    meme.lines.forEach(line => {
+        drawText(line, line.x, line.y)
+    });
 }
 
-function moveText(x,y){
+
+
+
+function setImg(elImg) {
+    gCurrElImg = elImg
+    gMeme.selectedImgId = elImg.id
+}
+
+function onAddTextLine() {
     const meme = getMeme()
-    const line = getMemeLine()
-    line.x = x
-    line.y = y
+    const line = addTextLine()
+    meme.lines.push(line)
+    meme.selectedLineIdx = meme.lines.length - 1
+    const elInput = document.querySelector('#meme-text')
+    elInput.value = ''
     renderMeme(gCurrElImg)
-    
+    document.querySelector('.second-row').classList.remove('active')
+    document.querySelector('.first-row').classList.remove('active')
 }
 
 
@@ -62,57 +63,49 @@ function renderTextColor() {
 //     return gCurrTextSize
 // }
 
-function drawText(line, baselineValue, x, y) {
+function drawText(line, x, y) {
     gCtx.textAlign = line.align
     gCtx.lineWidth = 2
     gCtx.font = line.size + "px " + line.style
     const text = line.txt
-    gCtx.textBaseline = baselineValue
+    gCtx.textBaseline = line.baseLine
     line.width = gCtx.measureText(text).width
-    // setTextSize(text, line.size)
     gCtx.fillText(text, x, y)
-    gCtx.strokeText(text, x, y)
-    // if (meme.selectedLineIdx === 0) {
-    // }
-    // else if (meme.selectedLineIdx === 1) {
-    //     gCtx.textBaseline = 'bottom'
-    //     gCtx.fillText(text, 0, gElCanvas.height)
-    //     gCtx.strokeText(text, 0, gElCanvas.height)
-    // }
-    // else {
-    //     gCtx.textBaseline = 'middle'
-    //     gCtx.fillText(text, 0, gElCanvas.height / 2)
-    //     gCtx.strokeText(text, 0, gElCanvas.height / 2)
-    // 
+    gCtx.strokeText(text, x, y) 
 }
+
+
+function getTextWidth(){
+    return gCtx.measureText(text).width
+}
+
 
 function onSwitchLine() {
     const meme = getMeme()
-    meme.selectedLineIdx++
-    if (meme.selectedLineIdx === meme.lines.length){
-        meme.selectedLineIdx = 0
+    switchLine()
+    if (meme.selectedLineIdx === 0) {
         document.querySelector('.first-row').classList.add('active')
         document.querySelector('.second-row').classList.remove('active')
-    }else{
+    } else if (meme.selectedLineIdx === 1) {
         document.querySelector('.second-row').classList.add('active')
         document.querySelector('.first-row').classList.remove('active')
-
+    } else {
+        document.querySelector('.second-row').classList.remove('active')
+        document.querySelector('.first-row').classList.remove('active')
     }
     const elInput = document.querySelector('#meme-text')
     elInput.value = meme.lines[meme.selectedLineIdx].txt
 }
 
-function onChangeFontFamily(value){
-    const line = getMemeLine()
-    line.style = value
+function onChangeFontFamily(value) {
+    changeFontFamily(value)
     renderMeme(gCurrElImg)
 }
 
 function onClearLine() {
     const elInput = document.querySelector('#meme-text')
     elInput.value = ''
-    const line = getMemeLine()
-    line.txt = ''
+    clearLine()
     renderMeme(gCurrElImg)
 }
 
@@ -127,30 +120,16 @@ function onChangeFontSize(value) {
 
 
 
-function setBorderColor(value) {
-    // const line = getMemeLine()
-    gCtx.strokeStyle = value
-    renderMeme(gCurrElImg)
-}
 
 
-function setFillColor(value) {
-    // const line = getMemeLine()
-    gCtx.fillStyle = value
-    renderMeme(gCurrElImg)
-}
 
-function setAlignItems(value) {
-    const line = getMemeLine()
-    line.align = value
-    if (value === 'right') line.x = gElCanvas.width
-    else if (value === 'center') line.x = gElCanvas.width / 2
-    else line.x = 0
+function onSetAlignItems(value) {
+    setAlignItems(value)
     renderMeme(gCurrElImg)
 
 }
 
-function renderImgFromUser(img){
+function renderImgFromUser(img) {
     gCurrElImg = img
     renderMeme(gCurrElImg)
 }
@@ -175,56 +154,11 @@ function loadImageFromInput(ev, onImageReady) {
 
 
 
-// FACEBOOK SHARE
-
-function onUploadImg() {
-    const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
-    function onSuccess(uploadedImgUrl) {
-        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}`)
-    }
-    doUploadImg(imgDataUrl, onSuccess)
-}
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function addMouseListeners() {
-    const elContainer = document.querySelector('.canvas-container')
-    gElCanvas.addEventListener('mousemove', onMove)
-    gElCanvas.addEventListener('mousedown', onDown)
-    elContainer.addEventListener('mouseup', onUp)
-}
-
-function addTouchListeners() {
-    const elContainer = document.querySelector('.canvas-container')
-    gElCanvas.addEventListener('touchmove', onMove)
-    gElCanvas.addEventListener('touchstart', onDown)
-    elContainer.addEventListener('touchend', onUp)
-}
 
 
 
@@ -242,8 +176,11 @@ function onMove(ev) {
     if (!isDrag) return
 
     const pos = getEvPos(ev)
-   
-    moveText(pos.x, pos.y)
+    const dx = pos.x - gStartPos.x
+    const dy = pos.y - gStartPos.y
+
+    moveText(dx, dy)
+    renderMeme(gCurrElImg)
     gStartPos = pos
 }
 
@@ -252,26 +189,25 @@ function onMove(ev) {
 
 function onUp() {
     setTextDrag(false)
-    document.body.style.cursor = 'grab'
+    document.body.style.cursor = 'default'
 }
 
 function getEvPos(ev) {
-    // Gets the offset pos , the default pos
+    const line = getMemeLine()
+    let diff = 0
+    if(line.align === 'left') diff = 0
+    if(line.align === 'center') diff = line.width / 2
+    if(line.align === 'right') diff = line.width
     let pos = {
-        x: ev.offsetX,
+        x: ev.offsetX + diff,
         y: ev.offsetY,
     }
-    // Check if its a touch ev
     if (TOUCH_EVS.includes(ev.type)) {
-        //soo we will not trigger the mouse ev
         ev.preventDefault()
-        //Gets the first touch point
         ev = ev.changedTouches[0]
-        console.log('ev.changedTouches[0]:',ev)
-        //Calc the right pos according to the touch screen
         pos = {
-            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
-            y: ev.pageY - ev.target.offsetTop - ev.target.clientTop,
+            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft + diff,
+            y: ev.pageY - ev.target.offsetParent.offsetTop - ev.target.clientTop,
         }
         console.log(pos);
     }
@@ -286,14 +222,38 @@ function getMemeLine() {
     return line
 }
 
+function setBorderColor(value) {
+    // const line = getMemeLine()
+    gCtx.strokeStyle = value
+    renderMeme(gCurrElImg)
+}
+
+
+function setFillColor(value) {
+    // const line = getMemeLine()
+    gCtx.fillStyle = value
+    renderMeme(gCurrElImg)
+}
 
 
 // DOWNLOAD CANVAS
 
 function downloadCanvas(elLink) {
-    const canvasContent = gElCanvas.toDataURL('canvas/jpeg') // image/jpeg the default format
+    const canvasContent = gElCanvas.toDataURL('canvas/jpeg')
     elLink.href = canvasContent
 }
+
+// FACEBOOK SHARE
+
+function onUploadImg() {
+    const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
+    function onSuccess(uploadedImgUrl) {
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}`)
+    }
+    doUploadImg(imgDataUrl, onSuccess)
+}
+
 
 
 

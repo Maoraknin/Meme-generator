@@ -47,6 +47,7 @@ function creategMeme() {
                 align: 'left',
                 style: 'Impact',
                 width: 0,
+                baseLine: 'top',
                 x: 0,
                 y: 0,
             },
@@ -56,6 +57,7 @@ function creategMeme() {
                 align: 'left',
                 style: 'Impact',
                 width: 0,
+                baseLine: 'bottom',
                 x: 0,
                 y: gElCanvas.height,
 
@@ -65,16 +67,7 @@ function creategMeme() {
 }
 
 
-function setImg(elImg) {
-    gCurrElImg = elImg
-    gMeme.selectedImgId = elImg.id
-}
 
-function getImgById(meme) {
-    const img = gImgs.find(img => img.id === meme.selectedImgId)
-    console.log(img.url);
-    return img.url
-}
 
 function getMeme() {
     return gMeme
@@ -89,36 +82,67 @@ function isTextClicked(clickedPos) {
     const line = getMemeLine()
     const x = line.x
     const y = line.y
-    console.log('x:',x)
-    console.log('clickedPos.x:',clickedPos.x)
-    console.log('clickedPos.x-x:',clickedPos.x-x)
-    console.log('clickedPos.y-y:',clickedPos.y-y)
-    console.log('line.size:',line.size)
-    console.log('line.width:',line.width)
-    console.log('line.size >= clickedPos.y-y:',line.size >= clickedPos.y-y)
-    console.log('line.width >= clickedPos.x-x:',line.width >= clickedPos.x-x)
-    console.log('y:',y)
-    console.log('clickedPos.y:',clickedPos.y)
-    console.log('clickedPos.y-(y-line.size):',clickedPos.y-(y-line.size))
-    const isClicked = (line.size >= clickedPos.y-y && line.width >= clickedPos.x-x && clickedPos.y-(y-line.size) > 0 && clickedPos.x-x > 0)
-    console.log(isClicked);
-    // console.log(line.width);
+    const isClicked = (line.size >= clickedPos.y - y && line.width >= clickedPos.x - x && clickedPos.y - (y - line.size) > 0 && clickedPos.x - x > 0)
 
     return (isClicked)
-    //If its smaller then the radius of the circle we are inside
-    // return distance <= gCircle.size
-}   
+}
 
-function setTextDrag(value){
+function setTextDrag(value) {
     gIsTextDrag = value
 }
 
-function isTextDrag(){
+function isTextDrag() {
     return gIsTextDrag
 }
 
+function clearLine() {
+    const meme = getMeme()
+    const idx = meme.selectedLineIdx
+    meme.lines.splice(idx, 1)
+    meme.selectedLineIdx++
+}
 
+function switchLine() {
+    const meme = getMeme()
+    meme.selectedLineIdx++
+    if (meme.selectedLineIdx === meme.lines.length) {
+        meme.selectedLineIdx = 0
+    }
+}
 
+function addTextLine() {
+    const line = {
+        txt: '',
+        size: 40,
+        align: 'left',
+        style: 'Impact',
+        width: 0,
+        baseLine: 'middle',
+        x: 0,
+        y: gElCanvas.height / 2,
+    }
+    return line
+}
+
+function moveText(x, y) {
+    const line = getMemeLine()
+    line.x += x
+    line.y += y
+
+}
+
+function changeFontFamily(value) {
+    const line = getMemeLine()
+    line.style = value
+}
+
+function setAlignItems(value) {
+    const line = getMemeLine()
+    line.align = value
+    if (value === 'right') line.x = gElCanvas.width
+    else if (value === 'center') line.x = gElCanvas.width / 2
+    else line.x = 0
+}
 
 
 

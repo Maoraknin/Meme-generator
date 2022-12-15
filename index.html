@@ -32,7 +32,7 @@
         <div class="main-container">
             <div class="canvas-container">
                 <a href="#" class="close-meme-lab-btn" onclick="closeMemeLab()"><span>Close Meme-lab</span></a>
-                <canvas id="my-canvas" height="400" width="400"></canvas>
+                <canvas id="my-canvas" height="300" width="300"></canvas>
             </div>
             <div class="edit-meme-container">
 
@@ -62,11 +62,11 @@
                     <button class="size-btn" onclick="onChangeFontSize(5)">A+</button>
                     <button class="size-btn" onclick="onChangeFontSize(-5)">A-</button>
                     <img src="design/input shapes/line.svg" alt="">
-                    <img class="align-btn" src="design/input shapes/align-left.svg" onclick="setAlignItems('left')"
+                    <img class="align-btn" src="design/input shapes/align-left.svg" onclick="onSetAlignItems('left')"
                         alt="">
-                    <img class="align-btn" src="design/input shapes/align-center.svg" onclick="setAlignItems('center')"
+                    <img class="align-btn" src="design/input shapes/align-center.svg" onclick="onSetAlignItems('center')"
                         alt="">
-                    <img class="align-btn" src="design/input shapes/align-right.svg" onclick="setAlignItems('right')"
+                    <img class="align-btn" src="design/input shapes/align-right.svg" onclick="onSetAlignItems('right')"
                         alt="">
                     <img src="design/input shapes/line.svg" alt="">
                     <label for="border-color-input" class="border-color-btn">A</label>

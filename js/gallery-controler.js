@@ -5,14 +5,9 @@ function onInit() {
     gElCanvas = document.getElementById('my-canvas')
     gCtx = gElCanvas.getContext('2d')
     createImgs()
-    creategMeme()
     renderGallery()
-    addMouseListeners()
-    addTouchListeners()
+    addListeners()
     document.querySelector('#meme-text').addEventListener("keyup", setMemeTxt, true);
-
-    gCtx.fillStyle = document.querySelector('input[name="fill-color"]').value
-    gCtx.strokeStyle = document.querySelector('input[name="border-color"]').value
 }
 
 function renderGallery(){
@@ -25,10 +20,22 @@ function renderGallery(){
     elDiv.innerHTML = strHtml
 }
 
+function resizeCanvas() {
+    const elCanvas = document.getElementById('my-canvas')
+    gElCanvas.width = elCanvas.offsetWidth
+    gElCanvas.height = elCanvas.offsetHeight
+    gElCanvas = document.getElementById('my-canvas')
+    gCtx.fillStyle = document.querySelector('input[name="fill-color"]').value
+    gCtx.strokeStyle = document.querySelector('input[name="border-color"]').value
+    creategMeme()
+}
+
 function onImgSelect(elImg){
     openMemeLab()
+    resizeCanvas()
     setImg(elImg)
     renderMeme(elImg)
+    
 }
 
 function openMemeLab(){
@@ -37,4 +44,23 @@ function openMemeLab(){
 
 function closeMemeLab(){
     document.querySelector('.meme-lab').hidden = true
+}
+
+function addListeners() {
+    addMouseListeners()
+    addTouchListeners()
+}
+
+function addMouseListeners() {
+    const elContainer = document.querySelector('.canvas-container')
+    gElCanvas.addEventListener('mousemove', onMove)
+    gElCanvas.addEventListener('mousedown', onDown)
+    elContainer.addEventListener('mouseup', onUp)
+}
+
+function addTouchListeners() {
+    const elContainer = document.querySelector('.canvas-container')
+    gElCanvas.addEventListener('touchmove', onMove)
+    gElCanvas.addEventListener('touchstart', onDown)
+    elContainer.addEventListener('touchend', onUp)
 }

@@ -66,12 +66,7 @@
 
 
 
-canvas {
-    width: 65%;
-    min-width: 400px;
-    min-height: 400px;
-
-}
+/**/
 
 /* btns */
 
@@ -240,8 +235,8 @@ canvas {
 
     canvas {
         width: 45%;
-        min-width: 280px;
-        min-height: 280px;
+        width: 280px;
+        height: 280px;
         /* padding: 20px; */
     }
 
@@ -332,6 +327,12 @@ canvas {
     .canvas-container {
         width: 80%;
     }
+
+    canvas {
+        width: 65%;
+        width: 400px;
+        height: 400px;
+    } 
 
 
     .edit-lines-container {
