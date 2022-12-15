@@ -19,13 +19,22 @@ function renderGallery(){
     const imgs = getImgs()
     let strHtml = ''
     imgs.map(img => {
-        strHtml += `<img class="gallery-img" id="${img.id}" onclick="onImgSelect(this)" src="${img.url}">`
+        strHtml += `<a href="#"><img class="gallery-img" id="${img.id}" onclick="onImgSelect(this)" src="${img.url}"></a>`
     })
     let elDiv = document.querySelector('.img-container')
     elDiv.innerHTML = strHtml
 }
 
 function onImgSelect(elImg){
+    openMemeLab()
     setImg(elImg)
     renderMeme(elImg)
+}
+
+function openMemeLab(){
+    document.querySelector('.meme-lab').hidden = false
+}
+
+function closeMemeLab(){
+    document.querySelector('.meme-lab').hidden = true
 }

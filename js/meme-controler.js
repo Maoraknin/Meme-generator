@@ -2,17 +2,17 @@
 
 
 let gCurrElImg
-
+// let gCurrTextSize
 let gElCanvas
 let gCtx
 let gIsPressed = false
+let gStartPos
 
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 
 function setMemeTxt() {
     const elInput = document.querySelector('#meme-text')
     const value = elInput.value
-    console.log('value:', value)
     // elInput.value = ''
     // const meme = getMeme()
     setLineTxt(value)
@@ -20,11 +20,13 @@ function setMemeTxt() {
 }
 
 function renderMeme(img) {
-    console.log(img);
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
     const meme = getMeme()
-    drawText(meme.lines[0], 'top')
-    drawText(meme.lines[1], 'bottom')
+    console.log(meme.lines[0].x);
+    drawText(meme.lines[0], 'top', meme.lines[0].x, meme.lines[0].y)
+    drawText(meme.lines[1], 'bottom', meme.lines[1].x, meme.lines[1].y)
+
+
     // meme.lines.map(line =>{
     //     drawText(meme,line)
     //     meme.selectedLineIdx++
@@ -33,6 +35,14 @@ function renderMeme(img) {
     // console.log(meme.selectedLineIdx);
 }
 
+function moveText(x,y){
+    const meme = getMeme()
+    const line = getMemeLine()
+    line.x = x
+    line.y = y
+    renderMeme(gCurrElImg)
+    
+}
 
 
 
@@ -41,16 +51,25 @@ function renderTextColor() {
     gCtx.strokeStyle = document.querySelector('input[name="border-color"]').value
 }
 
+// function setTextSize(text, textHeight){
+//     const textSize = {}
+//     textSize.width = gCtx.measureText(text).width
+//     textSize.height = textHeight
+//     gCurrTextSize = textSize
+// }
 
-function drawText(line, baselineValue) {
+// function getTextSize(){
+//     return gCurrTextSize
+// }
 
+function drawText(line, baselineValue, x, y) {
     gCtx.textAlign = line.align
     gCtx.lineWidth = 2
     gCtx.font = line.size + "px " + line.style
     const text = line.txt
     gCtx.textBaseline = baselineValue
-    const x = line.x
-    const y = line.y
+    line.width = gCtx.measureText(text).width
+    // setTextSize(text, line.size)
     gCtx.fillText(text, x, y)
     gCtx.strokeText(text, x, y)
     // if (meme.selectedLineIdx === 0) {
@@ -84,7 +103,7 @@ function onSwitchLine() {
 }
 
 function onChangeFontFamily(value){
-    const line = _getMemeLine()
+    const line = getMemeLine()
     line.style = value
     renderMeme(gCurrElImg)
 }
@@ -92,14 +111,14 @@ function onChangeFontFamily(value){
 function onClearLine() {
     const elInput = document.querySelector('#meme-text')
     elInput.value = ''
-    const line = _getMemeLine()
+    const line = getMemeLine()
     line.txt = ''
     renderMeme(gCurrElImg)
 }
 
 
 function onChangeFontSize(value) {
-    const line = _getMemeLine()
+    const line = getMemeLine()
     line.size += value
     renderMeme(gCurrElImg)
 }
@@ -109,20 +128,20 @@ function onChangeFontSize(value) {
 
 
 function setBorderColor(value) {
-    // const line = _getMemeLine()
+    // const line = getMemeLine()
     gCtx.strokeStyle = value
     renderMeme(gCurrElImg)
 }
 
 
 function setFillColor(value) {
-    // const line = _getMemeLine()
+    // const line = getMemeLine()
     gCtx.fillStyle = value
     renderMeme(gCurrElImg)
 }
 
 function setAlignItems(value) {
-    const line = _getMemeLine()
+    const line = getMemeLine()
     line.align = value
     if (value === 'right') line.x = gElCanvas.width
     else if (value === 'center') line.x = gElCanvas.width / 2
@@ -211,21 +230,29 @@ function addTouchListeners() {
 
 
 function onDown(ev) {
-    if (gIsPressed) return
-    gIsPressed = true
-    draw(ev)
-    // document.body.style.cursor = 'grabbing'
+    const pos = getEvPos(ev)
+    if (!isTextClicked(pos)) return
+    setTextDrag(true)
+    gStartPos = pos
+    document.body.style.cursor = 'grabbing'
 }
 
 function onMove(ev) {
-    if (!gIsPressed) return
-    console.log('here?');
-    draw(ev)
+    const isDrag = isTextDrag()
+    if (!isDrag) return
+
+    const pos = getEvPos(ev)
+   
+    moveText(pos.x, pos.y)
+    gStartPos = pos
 }
 
+
+
+
 function onUp() {
-    gIsPressed = false
-    // document.body.style.cursor = 'grab'
+    setTextDrag(false)
+    document.body.style.cursor = 'grab'
 }
 
 function getEvPos(ev) {
@@ -236,22 +263,23 @@ function getEvPos(ev) {
     }
     // Check if its a touch ev
     if (TOUCH_EVS.includes(ev.type)) {
-        console.log('ev:', ev)
         //soo we will not trigger the mouse ev
         ev.preventDefault()
         //Gets the first touch point
         ev = ev.changedTouches[0]
+        console.log('ev.changedTouches[0]:',ev)
         //Calc the right pos according to the touch screen
         pos = {
             x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
             y: ev.pageY - ev.target.offsetTop - ev.target.clientTop,
         }
+        console.log(pos);
     }
     return pos
 }
 
 
-function _getMemeLine() {
+function getMemeLine() {
     const meme = getMeme()
     const lineIdx = meme.selectedLineIdx
     const line = meme.lines[lineIdx]

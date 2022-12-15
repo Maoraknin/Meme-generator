@@ -2,6 +2,7 @@
 
 let gMeme
 let gImgs
+let gIsTextDrag = false
 
 
 function getImgs() {
@@ -45,20 +46,19 @@ function creategMeme() {
                 size: 40,
                 align: 'left',
                 style: 'Impact',
-                // fillColor: 'white',
-                // borderColor: 'black',
+                width: 0,
                 x: 0,
-                y: 0
+                y: 0,
             },
             {
                 txt: '',
                 size: 40,
                 align: 'left',
                 style: 'Impact',
-                // fillColor: 'white',
-                // borderColor: 'black',
+                width: 0,
                 x: 0,
-                y: gElCanvas.height
+                y: gElCanvas.height,
+
             },
         ]
     }
@@ -66,7 +66,6 @@ function creategMeme() {
 
 
 function setImg(elImg) {
-    console.log(elImg);
     gCurrElImg = elImg
     gMeme.selectedImgId = elImg.id
 }
@@ -86,7 +85,37 @@ function setLineTxt(value) {
     line.txt = value
 }
 
+function isTextClicked(clickedPos) {
+    const line = getMemeLine()
+    const x = line.x
+    const y = line.y
+    console.log('x:',x)
+    console.log('clickedPos.x:',clickedPos.x)
+    console.log('clickedPos.x-x:',clickedPos.x-x)
+    console.log('clickedPos.y-y:',clickedPos.y-y)
+    console.log('line.size:',line.size)
+    console.log('line.width:',line.width)
+    console.log('line.size >= clickedPos.y-y:',line.size >= clickedPos.y-y)
+    console.log('line.width >= clickedPos.x-x:',line.width >= clickedPos.x-x)
+    console.log('y:',y)
+    console.log('clickedPos.y:',clickedPos.y)
+    console.log('clickedPos.y-(y-line.size):',clickedPos.y-(y-line.size))
+    const isClicked = (line.size >= clickedPos.y-y && line.width >= clickedPos.x-x && clickedPos.y-(y-line.size) > 0 && clickedPos.x-x > 0)
+    console.log(isClicked);
+    // console.log(line.width);
 
+    return (isClicked)
+    //If its smaller then the radius of the circle we are inside
+    // return distance <= gCircle.size
+}   
+
+function setTextDrag(value){
+    gIsTextDrag = value
+}
+
+function isTextDrag(){
+    return gIsTextDrag
+}
 
 
 

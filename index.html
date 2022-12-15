@@ -11,7 +11,7 @@
 
 <body onload="onInit()" class="main-layout">
 
-    <!-- <div class="main-screen full"></div> -->
+    <div class="main-screen full"></div>
 
     <header class="main-header full">
         <div class="header-container flex align-center space-between">
@@ -27,11 +27,12 @@
         </div>
     </header>
 
-    <div class="meme-lab full">
+    <div class="meme-lab" hidden>
         <!-- <button onclick="toggleModal()" class="close-modal-btn">&#10005;</button> -->
         <div class="main-container">
             <div class="canvas-container">
-                <canvas id="my-canvas" height="450" width="450"></canvas>
+                <a href="#" class="close-meme-lab-btn" onclick="closeMemeLab()"><span>Close Meme-lab</span></a>
+                <canvas id="my-canvas" height="400" width="400"></canvas>
             </div>
             <div class="edit-meme-container">
 
@@ -99,9 +100,10 @@
         <img class="logo" src="design/logo.svg" alt="">
         <small>© 2022 Meme Generator - All Rights Reserved - <span>Maor Aknin</span></small>
         <ul class="social-links clean-list flex align-items space-between">
-            <li><a href="#" class="fa-brands facebook"></a></li>
-            <li><a href="#" class="fa-brands instagram"></a></li>
-            <li><a href="#" class="fa-brands linkedin"></a></li>
+            <li><a href="https://www.facebook.com/maor.aknin.3" target="_blank" class="fa-brands facebook"></a></li>
+            <li><a href="https://www.instagram.com/maor_aknin1/" target="_blank" class="fa-brands instagram"></a></li>
+            <li><a href="https://www.linkedin.com/in/maor-aknin-b63a46243/" target="_blank" class="fa-brands linkedin"></a></li>
+            <li><a href="https://github.com/Maoraknin" target="_blank" class="fa-brands gitHub"></a></li>
         </ul>
     </footer>
 
@@ -111,9 +113,6 @@
         /////////////////////////////PROBLEM IN MOBILE////////////////////////////
 
         function toggleMenu() {
-            console.log(document.body.classList.contains('modal-open'));
-            if (document.body.classList.contains('modal-open')) return
-            console.log(document.body.classList.contains('menu-open'));
             document.body.classList.toggle('menu-open')
             document.querySelector('.main-screen').addEventListener('click', toggleMenu)
         }

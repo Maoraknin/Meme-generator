@@ -6,18 +6,24 @@
     background-color: var(--clr2);
     display: flex;
     flex-direction: row;
-    /* padding: 3rem 3rem 5rem; */
     height: 95vh;
-    /* z-index: 1; */
     justify-content: space-between;
     border: var(--clr5) 2px solid;
-    /* min-height: 80%;
-    min-width: 80%; */
 
 }
 
+.meme-lab .edit-meme-container {
+
+    display: block;
+    position: relative;
+    flex-direction: column;
+    justify-content: stretch;
+    background-color: var(--clr3);
+    height: 100%;
+}
+
 .canvas-container {
-    width: 62%;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,12 +32,6 @@
 
 
 .edit-lines-container {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: 350px 1fr 1fr 1fr 1fr;
-    align-items: center;
-    justify-items: center;
-    width: 486px;
     margin: 30px auto 0;
 }
 
@@ -39,7 +39,6 @@
     color: var(--clr4);
     justify-self: self-start;
     font-family: roboto;
-    font-size: 1.5rem;
     margin: 0;
 }
 
@@ -49,12 +48,6 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     display: grid;
-    width: 486px;
-    grid-template-columns: 175px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 41px;
-    grid-template-areas:
-        "font  decrease  increase  line  left  center  right  line  border  color";
-    /* "text  text  text  text  text  text  text  text  text  text text"; */
     align-items: center;
     justify-items: center;
     margin: 20px auto 0;
@@ -67,30 +60,16 @@
     border-top: none;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    width: 486px;
-    height: 66px;
     margin: 0 auto;
 
 }
 
-.meme-lab .edit-meme-container {
 
-    display: block;
-    position: relative;
-    flex-direction: column;
-    justify-content: stretch;
-    /* flex-grow: 1; */
-    /* justify-content: center; */
-    width: 38%;
-    min-width: 500px;
-    background-color: var(--clr3);
-    height: 100%;
-}
 
 canvas {
-    width: 80%;
-    max-width: 600px;
-    max-height: 600px;
+    width: 65%;
+    min-width: 400px;
+    min-height: 400px;
 
 }
 
@@ -112,40 +91,36 @@ canvas {
     color: #727272;
 }
 
-.edit-lines-btns{
+.edit-lines-btns {
     cursor: pointer;
 }
 
-.border-color-btn{
+.border-color-btn {
     color: var(--clr2);
-    text-shadow: 
-            -0.6px -0.6px 0px var(--clr4),
-             0px -0.6px 0px var(--clr4),
-             0.6px -0.6px 0px var(--clr4),
-            -0.6px  0px 0px var(--clr4),
-             0.6px  0px 0px var(--clr4),
-            -0.6px  0.6px 0px var(--clr4),
-             0px  0.6px 0px var(--clr4),
-             0.6px  0.6px 0px var(--clr4);
+    text-shadow:
+        -0.6px -0.6px 0px var(--clr4),
+        0px -0.6px 0px var(--clr4),
+        0.6px -0.6px 0px var(--clr4),
+        -0.6px 0px 0px var(--clr4),
+        0.6px 0px 0px var(--clr4),
+        -0.6px 0.6px 0px var(--clr4),
+        0px 0.6px 0px var(--clr4),
+        0.6px 0.6px 0px var(--clr4);
     font-family: Georgia, 'Times New Roman', Times, serif;
     cursor: pointer;
 }
 
-.fill-color-btn{
+.fill-color-btn {
     cursor: pointer;
 }
 
 /* inputs */
 
 .text-input {
-    height: 70%;
-    width: 90%;
-    margin: 10px;
     border: var(--clr2) 1px solid;
 }
 
 .change-font-bar {
-    width: 160px;
     height: 1.375rem;
     border: 1px solid #EBEBEB;
     color: var(--clr1);
@@ -162,15 +137,15 @@ canvas {
 }
 
 
-.file-input{
+.file-input {
     display: block;
     margin: 10px auto;
     color: var(--clr1);
     border: none;
-    
+
 }
 
-.file-input::-webkit-file-upload-button{
+.file-input::-webkit-file-upload-button {
     color: var(--clr1);
     background-color: var(--clr2);
     border: 1px solid #DEDEDE;
@@ -180,11 +155,10 @@ canvas {
     cursor: pointer;
 }
 
-.file-input::-webkit-file-upload-button:hover{
+.file-input::-webkit-file-upload-button:hover {
     background-color: var(--clr4);
     color: var(--clr2);
 }
-
 
 .share-btn {
     background-color: var(--clr0);
@@ -201,33 +175,20 @@ canvas {
     right: 30px;
 }
 
-.fa-solids{
+.fa-solids {
     font-family: fa-solids;
     color: var(--clr0);
     cursor: pointer;
 }
 
-.fa-solids.download::before{
-content: "\f019";
-font-size: 2rem;
-position: absolute;
-bottom: 60px;
-left: 50px;
-}
-
-/* .meme-lab-btn:hover {
-    background-color: var(---clr7);
-}
-
-.close-meme-lab-btn {
-    background-color: var(--clr4);
-    border: none;
+.fa-solids.download::before {
+    content: "\f019";
     font-size: 2rem;
     position: absolute;
-    right: 1rem;
-    top: 1rem;
+    bottom: 60px;
+    left: 50px;
+}
 
-} */
 
 .curr-line-label {
     color: #DEDEDE;
@@ -240,16 +201,211 @@ left: 50px;
     color: var(--clr4);
 }
 
+.close-meme-lab-btn{
+    text-decoration: none;
+    font-family: roboto;
+    font-size: 0.8rem;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: var(--clr1);
+}
 
 
-@media (max-width: 780px) {}
+
+@media (max-width: 780px) {
+
+    .meme-lab .main-container {
+        flex-direction: column;
+        padding-top: 60px;
+        height: 100vh;
+    }
+
+    .canvas-container {
+        flex-direction: column;
+
+    }
+
+    .edit-meme-container{
+        min-height: 280px;
+    }
+
+    .share-btn {
+        bottom: 22px;
+    }
+
+    .fa-solids.download::before{
+        bottom: 30px;
+    }
+
+    canvas {
+        width: 45%;
+        min-width: 280px;
+        min-height: 280px;
+        /* padding: 20px; */
+    }
+
+    .edit-lines-container {
+        margin-top: 20px;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        margin: 30px auto 0;
+        grid-template-columns: 180px 1fr 1fr 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+        width: 60%;
+        min-width: 300px;
+    }
+    
+    .edit-lines-container h2 {
+        font-size: 1rem;
+    }
+    
+    .change-font-bar {
+        width: 80px;
+    }
+
+    .text-input {
+        height: 70%;
+        width: 90%;
+        margin: 5px;
+        border: var(--clr2) 1px solid;
+    }
+
+    .input-container {
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        margin: 20px auto 0;
+        width: 60%;
+        min-width: 300px;
+        grid-template-columns: 90px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 41px;
+        grid-template-areas:
+            "font  decrease  increase  line  left  center  right  line  border  color"
+
+    
+    }
+    
+    .text-input-container {
+        width: 60%;
+        min-width: 300px;
+        height: 35px;
+        margin: 0 auto;
+    }
+
+    .close-meme-lab-btn span{
+        display: none;
+    }
+
+    .close-meme-lab-btn::after{
+        position: absolute;
+        top: -20px;
+        right: 0;
+        content: "X";
+    }
+
+}
+
+
+
 
 
 @media (min-width: 781px) {
 
-
-    .meme-lab h1 {
-        text-transform: uppercase;
+    .meme-lab .main-container {
+        flex-direction: row;
     }
+
+    .text-input {
+        height: 70%;
+        width: 90%;
+        margin: 10px;
+        border: var(--clr2) 1px solid;
+    }
+
+    .meme-lab .edit-meme-container {
+        min-width: 320px;
+    }
+
+    .canvas-container {
+        width: 80%;
+    }
+
+
+    .edit-lines-container {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 180px 1fr 1fr 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+        width: 300px;
+    }
+
+    .input-container {
+        width: 300px;
+        grid-template-columns: 90px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 41px;
+        grid-template-areas:
+            "font  decrease  increase  line  left  center  right  line  border  color"
+
+    }
+
+    .text-input-container {
+        width: 300px;
+        height: 66px;
+        margin: 0 auto;
+
+    }
+
+    .change-font-bar {
+        width: 80px;
+    }
+
+    .edit-lines-container h2 {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+}
+
+@media (min-width: 980px) {
+
+    .meme-lab .edit-meme-container {
+        width: 38%;
+        min-width: 510px;
+    }
+
+    .canvas-container {
+        width: 62%;
+    }
+
+    .edit-lines-container {
+        grid-template-columns: 350px 1fr 1fr 1fr 1fr;
+        width: 486px;
+        margin: 30px auto 0;
+    }
+
+    .input-container {
+        width: 486px;
+        grid-template-columns: 175px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 41px;
+        grid-template-areas:
+            "font  decrease  increase  line  left  center  right  line  border  color";
+        /* "text  text  text  text  text  text  text  text  text  text text"; */
+        margin: 20px auto 0;
+
+    }
+
+    .text-input-container {
+        width: 486px;
+
+    }
+
+    .change-font-bar {
+        width: 160px;
+    }
+
 
 }

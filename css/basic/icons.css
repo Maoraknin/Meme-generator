@@ -16,6 +16,10 @@
     content: "\f0e1";
 }
 
+.fa-brands.gitHub::before {
+    content: "\f09b";
+}
+
 .social-links .facebook {
     background-color: #516fad;
 
@@ -33,6 +37,16 @@
 
 .social-links .linkedin:hover {
     background-color: #005481;
+
+}
+
+.social-links .gitHub {
+    background-color: #333333;
+
+}
+
+.social-links .gitHub:hover {
+    background-color: #202020;
 
 }
 
