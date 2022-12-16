@@ -8,7 +8,7 @@
     flex-direction: row;
     height: 95vh;
     justify-content: space-between;
-    border: var(--clr5) 2px solid;
+    border: var(--clr5) 1px solid;
 
 }
 
@@ -196,7 +196,7 @@
     color: var(--clr4);
 }
 
-.close-meme-lab-btn{
+.close-meme-lab-btn {
     text-decoration: none;
     font-family: roboto;
     font-size: 0.8rem;
@@ -206,7 +206,16 @@
     color: var(--clr1);
 }
 
+.save-meme-btn {
+    display: block;
+    text-decoration: none;
+    color: var(--clr0);
+    padding-left: 20px;
+}
 
+.save-meme-btn:hover{
+    color: var(--clr4);
+}
 
 @media (max-width: 780px) {
 
@@ -221,7 +230,7 @@
 
     }
 
-    .edit-meme-container{
+    .edit-meme-container {
         min-height: 280px;
     }
 
@@ -229,7 +238,7 @@
         bottom: 22px;
     }
 
-    .fa-solids.download::before{
+    .fa-solids.download::before {
         bottom: 30px;
     }
 
@@ -252,11 +261,11 @@
         width: 60%;
         min-width: 300px;
     }
-    
+
     .edit-lines-container h2 {
         font-size: 1rem;
     }
-    
+
     .change-font-bar {
         width: 80px;
     }
@@ -280,9 +289,9 @@
         grid-template-areas:
             "font  decrease  increase  line  left  center  right  line  border  color"
 
-    
+
     }
-    
+
     .text-input-container {
         width: 60%;
         min-width: 300px;
@@ -290,11 +299,11 @@
         margin: 0 auto;
     }
 
-    .close-meme-lab-btn span{
+    .close-meme-lab-btn span {
         display: none;
     }
 
-    .close-meme-lab-btn::after{
+    .close-meme-lab-btn::after {
         position: absolute;
         top: -20px;
         right: 0;
@@ -332,7 +341,7 @@
         width: 65%;
         width: 400px;
         height: 400px;
-    } 
+    }
 
 
     .edit-lines-container {

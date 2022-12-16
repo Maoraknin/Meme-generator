@@ -12,6 +12,7 @@
 /* COMPONENTS */
 @import './comps/header.css';
 @import './comps/meme-lab.css';
+@import './comps/saved-memes.css';
 @import './comps/gallery.css';
 @import './comps/footer.css';
 

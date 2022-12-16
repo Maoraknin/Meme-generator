@@ -1,7 +1,10 @@
 'use strict'
 
+const SAVED_MEMES_KEY = 'saved-memes-DB'
+
 let gMeme
 let gImgs
+let gSavedMemes
 let gIsTextDrag = false
 
 
@@ -9,30 +12,44 @@ function getImgs() {
     return gImgs
 }
 
+function createSavedMemes() {
+    gSavedMemes = loadFromStorage(SAVED_MEMES_KEY)
+    if (!gSavedMemes) gSavedMemes = []
+}
+
+function addSavedMeme(canvas) {
+    gSavedMemes.push(canvas.toDataURL())
+    saveToStorage(SAVED_MEMES_KEY, gSavedMemes)
+}
+
+function getSavedMemes() {
+    return gSavedMemes
+}
+
 function createImgs() {
     gImgs = [
-        { id: 1, url: 'img/1.jpg', keywords: ['Trump', 'Celebrity'] },
-        { id: 2, url: 'img/2.jpg', keywords: ['Dog', 'Cute'] },
-        { id: 3, url: 'img/3.jpg', keywords: ['Dog', 'Cute', 'Baby', 'Sleep'] },
-        { id: 4, url: 'img/4.jpg', keywords: ['Cat', 'Cute', 'Sleep'] },
-        { id: 5, url: 'img/5.jpg', keywords: ['Boy', 'Cute', 'Success'] },
-        { id: 6, url: 'img/6.jpg', keywords: ['History', 'Funny'] },
-        { id: 7, url: 'img/7.jpg', keywords: ['Boy', 'Cute', 'Suprise'] },
-        { id: 8, url: 'img/8.jpg', keywords: ['Celebrity', 'Funny'] },
-        { id: 9, url: 'img/9.jpg', keywords: ['Boy', 'Cute', 'Asian'] },
-        { id: 10, url: 'img/10.jpg', keywords: ['Celebrty', 'Obama', 'Funny'] },
-        { id: 11, url: 'img/11.jpg', keywords: ['Sport', 'Kiss', 'man'] },
-        { id: 12, url: 'img/12.jpg', keywords: ['Journalist', 'Israel', 'Question'] },
-        { id: 13, url: 'img/13.jpg', keywords: ['Handsom', 'Clever'] },
-        { id: 14, url: 'img/14.jpg', keywords: ['Black', 'Tough', 'Scary'] },
-        { id: 15, url: 'img/15.jpg', keywords: ['Loser', 'Man', 'Little'] },
-        { id: 16, url: 'img/16.jpg', keywords: ['Boy', 'Cute', 'Success'] },
-        { id: 17, url: 'img/17.jpg', keywords: ['Boy', 'Cute', 'Success'] },
-        { id: 18, url: 'img/18.jpg', keywords: ['Boy', 'Cute', 'Success'] },
-        { id: 19, url: 'img/19.jpg', keywords: ['Boy', 'Cute', 'Success'] },
-        { id: 20, url: 'img/20.jpg', keywords: ['Boy', 'Cute', 'Success'] },
-        { id: 21, url: 'img/21.jpg', keywords: ['Boy', 'Cute', 'Success'] },
-        { id: 22, url: 'img/22.jpg', keywords: ['Boy', 'Cute', 'Success'] },
+        { id: 1, url: 'img/1.jpg', keywords: ['trump', 'celebrity'] },
+        { id: 2, url: 'img/2.jpg', keywords: ['dog', 'cute'] },
+        { id: 3, url: 'img/3.jpg', keywords: ['dog', 'cute', 'baby', 'sleep'] },
+        { id: 4, url: 'img/4.jpg', keywords: ['cat', 'cute', 'sleep'] },
+        { id: 5, url: 'img/5.jpg', keywords: ['boy', 'cute', 'success'] },
+        { id: 6, url: 'img/6.jpg', keywords: ['history', 'funny'] },
+        { id: 7, url: 'img/7.jpg', keywords: ['boy', 'cute', 'suprise'] },
+        { id: 8, url: 'img/8.jpg', keywords: ['celebrity', 'funny'] },
+        { id: 9, url: 'img/9.jpg', keywords: ['boy', 'cute', 'asian'] },
+        { id: 10, url: 'img/10.jpg', keywords: ['celebrty', 'obama', 'funny'] },
+        { id: 11, url: 'img/11.jpg', keywords: ['sport', 'kiss', 'man'] },
+        { id: 12, url: 'img/12.jpg', keywords: ['journalist', 'israel', 'question'] },
+        { id: 13, url: 'img/13.jpg', keywords: ['handsom', 'clever'] },
+        { id: 14, url: 'img/14.jpg', keywords: ['black', 'tough', 'scary'] },
+        { id: 15, url: 'img/15.jpg', keywords: ['loser', 'man', 'little'] },
+        { id: 16, url: 'img/16.jpg', keywords: ['sci-fi', 'funny'] },
+        { id: 17, url: 'img/17.jpg', keywords: ['putin', 'leader', 'celebrity'] },
+        { id: 18, url: 'img/18.jpg', keywords: ['looking', 'childhood', 'cartoon'] },
+        { id: 19, url: 'img/19.jpg', keywords: ['field', 'happy'] },
+        { id: 20, url: 'img/20.jpg', keywords: ['shout', 'angry'] },
+        { id: 21, url: 'img/21.jpg', keywords: ['dancing', 'cute', 'optimistic'] },
+        { id: 22, url: 'img/22.jpg', keywords: ['trump', 'celebrity', 'angry'] },
     ];
 }
 
@@ -78,13 +95,26 @@ function setLineTxt(value) {
     line.txt = value
 }
 
-function isTextClicked(clickedPos) {
-    const line = getMemeLine()
-    const x = line.x
-    const y = line.y
-    const isClicked = (line.size >= clickedPos.y - y && line.width >= clickedPos.x - x && clickedPos.y - (y - line.size) > 0 && clickedPos.x - x > 0)
+function getTextClickedIdx(clickedPos) {
+    const meme = getMeme()
+    const idx = meme.lines.findIndex(line => {
+        const x = line.x
+        const y = line.y
+        const isClicked = (line.size >= clickedPos.y - y && line.width >= clickedPos.x - x && clickedPos.y - (y - line.size) > 0 && clickedPos.x - x > 0)
+        return isClicked
+    })
 
-    return (isClicked)
+    console.log('idx:', idx)
+    return idx
+
+
+
+    // const line = getMemeLine()
+    // const x = line.x
+    // const y = line.y
+    // const isClicked = (line.size >= clickedPos.y - y && line.width >= clickedPos.x - x && clickedPos.y - (y - line.size) > 0 && clickedPos.x - x > 0)
+
+    // return (isClicked)
 }
 
 function setTextDrag(value) {
@@ -99,13 +129,15 @@ function clearLine() {
     const meme = getMeme()
     const idx = meme.selectedLineIdx
     meme.lines.splice(idx, 1)
-    meme.selectedLineIdx++
+    switchLine()
+    const line = getMemeLine()
+    drawRect(line)
 }
 
 function switchLine() {
     const meme = getMeme()
     meme.selectedLineIdx++
-    if (meme.selectedLineIdx === meme.lines.length) {
+    if (meme.selectedLineIdx >= meme.lines.length) {
         meme.selectedLineIdx = 0
     }
 }

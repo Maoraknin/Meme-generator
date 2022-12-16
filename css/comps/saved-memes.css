@@ -1,0 +1,16 @@
+
+.saved-memes-container{
+        padding: 20px;
+}
+
+.meme-imgs-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+@media (max-width: 780px) {
+    .saved-memes-container{
+        padding-top: 70px;
+}
+}

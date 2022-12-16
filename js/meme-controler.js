@@ -23,8 +23,18 @@ function renderMeme(img) {
     meme.lines.forEach(line => {
         drawText(line, line.x, line.y)
     });
+    const line = getMemeLine()
+    drawRect(line)
 }
 
+function renderMemeForExporting(img){
+    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+    const meme = getMeme()
+    meme.lines.forEach(line => {
+        drawText(line, line.x, line.y)
+    });
+    const line = getMemeLine()
+}
 
 
 
@@ -83,10 +93,16 @@ function getTextWidth(){
 function onSwitchLine() {
     const meme = getMeme()
     switchLine()
-    if (meme.selectedLineIdx === 0) {
+    renderCurrLine(meme, meme.selectedLineIdx)
+    const line = getMemeLine()
+    drawRect(line)
+}
+
+function renderCurrLine(meme, idx){
+    if (idx === 0) {
         document.querySelector('.first-row').classList.add('active')
         document.querySelector('.second-row').classList.remove('active')
-    } else if (meme.selectedLineIdx === 1) {
+    } else if (idx === 1) {
         document.querySelector('.second-row').classList.add('active')
         document.querySelector('.first-row').classList.remove('active')
     } else {
@@ -94,7 +110,7 @@ function onSwitchLine() {
         document.querySelector('.first-row').classList.remove('active')
     }
     const elInput = document.querySelector('#meme-text')
-    elInput.value = meme.lines[meme.selectedLineIdx].txt
+    elInput.value = meme.lines[idx].txt
 }
 
 function onChangeFontFamily(value) {
@@ -115,10 +131,6 @@ function onChangeFontSize(value) {
     line.size += value
     renderMeme(gCurrElImg)
 }
-
-
-
-
 
 
 
@@ -154,18 +166,14 @@ function loadImageFromInput(ev, onImageReady) {
 
 
 
-
-
-
-
-
-
-
-
-
 function onDown(ev) {
+    const meme = getMeme()
     const pos = getEvPos(ev)
-    if (!isTextClicked(pos)) return
+    const idx = getTextClickedIdx(pos)
+    console.log(idx);
+    if (idx === -1) return
+    meme.selectedLineIdx = idx
+    renderCurrLine(meme, idx)
     setTextDrag(true)
     gStartPos = pos
     document.body.style.cursor = 'grabbing'
@@ -239,6 +247,7 @@ function setFillColor(value) {
 // DOWNLOAD CANVAS
 
 function downloadCanvas(elLink) {
+    renderMemeForExporting(gCurrElImg)
     const canvasContent = gElCanvas.toDataURL('canvas/jpeg')
     elLink.href = canvasContent
 }
@@ -246,6 +255,7 @@ function downloadCanvas(elLink) {
 // FACEBOOK SHARE
 
 function onUploadImg() {
+    renderMemeForExporting(gCurrElImg)
     const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
     function onSuccess(uploadedImgUrl) {
         const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
@@ -255,8 +265,19 @@ function onUploadImg() {
 }
 
 
-
-
+function drawRect(line) {
+    if(line.width === 0) return
+    let y
+    if(line.baseLine === 'top') y = line.y
+    else if(line.baseLine === 'middle') y = line.y - line.size / 2
+    else if(line.baseLine === 'bottom') y = line.y - line.size
+    let x
+    if(line.align === 'left') x = line.x
+    else if(line.align === 'center') x = line.x - line.width / 2
+    else if(line.align === 'right') x = line.x - line.width
+    gCtx.strokeStyle = 'black'
+    gCtx.strokeRect(x, y, line.width, line.size)
+}
 
 
 

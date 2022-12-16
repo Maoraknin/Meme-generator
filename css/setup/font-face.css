@@ -20,6 +20,11 @@
 }
 
 @font-face {
+    font-family: roboto-italic;
+    src: url("../../fonts/Roboto-Italic.ttf");
+}
+
+@font-face {
     font-family: fa-brands;
     src: url("../../fonts/font-awesome/fa-brands-400.ttf");
 }

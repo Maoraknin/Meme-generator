@@ -15,17 +15,19 @@
 
     <header class="main-header full">
         <div class="header-container flex align-center space-between">
-            <img class="logo" src="design/logo.svg" alt="">
+            <img class="logo" src="design/logo.svg" alt="" onclick="onShowGallery()">
             <nav class="main-nav">
                 <ul class="flex clean-list nav-list">
-                    <li><a class="nav-link" href="#">Memes</a></li>
-                    <li><a class="nav-link active" href="#">Gallery</a></li>
-                    <li><a class="nav-link" href="#">About</a></li>
+                    <li><a class="nav-link memes" href="#" onclick="onShowSaveMemes() ; toggleMenu()">Memes</a></li>
+                    <li><a class="nav-link gallery active" href="#" onclick="onShowGallery(); toggleMenu()">Gallery</a></li>
+                    <li><a class="nav-link about" href="#about" onclick="toggleMenu()">About</a></li>
                 </ul>
             </nav>
             <button class="menu-toggle-btn" onclick="toggleMenu()">☰</button>
         </div>
     </header>
+
+
 
     <div class="meme-lab" hidden>
         <!-- <button onclick="toggleModal()" class="close-modal-btn">&#10005;</button> -->
@@ -41,17 +43,22 @@
                 <div class="edit-lines-container">
                     <h2>Edit Text Lines</h2>
 
-                    <label class="curr-line-label"><span class="first-row active">1</span>/<span class="second-row">2</span></label>
-                    <img class="edit-lines-btns" onclick="onSwitchLine()" id="switch-lines-btn" src="design/input shapes/switch-lines.svg" alt="">
-                    <img class="edit-lines-btns" onclick="onAddTextLine()" src="design/input shapes/add-line.svg" alt="">
-                    <img class="edit-lines-btns" onclick="onClearLine()" src="design/input shapes/clear-line.svg" alt="">
+                    <label class="curr-line-label"><span class="first-row active">1</span>/<span
+                            class="second-row">2</span></label>
+                    <img class="edit-lines-btns" onclick="onSwitchLine()" id="switch-lines-btn"
+                        src="design/input shapes/switch-lines.svg" alt="">
+                    <img class="edit-lines-btns" onclick="onAddTextLine()" src="design/input shapes/add-line.svg"
+                        alt="">
+                    <img class="edit-lines-btns" onclick="onClearLine()" src="design/input shapes/clear-line.svg"
+                        alt="">
                 </div>
 
 
 
 
                 <div class="input-container">
-                    <select class="change-font-bar" onchange="onChangeFontFamily(this.value)" name="font-select" id="font-select">
+                    <select class="change-font-bar" onchange="onChangeFontFamily(this.value)" name="font-select"
+                        id="font-select">
                         <option value="Impact">Impact</option>
                         <option value="ariel">Ariel</option>
                         <option value="Lato">Lato</option>
@@ -64,35 +71,43 @@
                     <img src="design/input shapes/line.svg" alt="">
                     <img class="align-btn" src="design/input shapes/align-left.svg" onclick="onSetAlignItems('left')"
                         alt="">
-                    <img class="align-btn" src="design/input shapes/align-center.svg" onclick="onSetAlignItems('center')"
-                        alt="">
+                    <img class="align-btn" src="design/input shapes/align-center.svg"
+                        onclick="onSetAlignItems('center')" alt="">
                     <img class="align-btn" src="design/input shapes/align-right.svg" onclick="onSetAlignItems('right')"
                         alt="">
                     <img src="design/input shapes/line.svg" alt="">
                     <label for="border-color-input" class="border-color-btn">A</label>
-                    <input id="border-color-input" type="color" name="border-color" value="#000000" class="color-input" hidden
-                    onchange="setBorderColor(this.value)">
-                    <label for="fill-color-input"><img class="fill-color-btn" src="design/input shapes/fill-color.svg"></label>
-                    <input id="fill-color-input" type="color" name="fill-color" value="#ffffff" class="color-input" hidden
-                        onchange="setFillColor(this.value)">
+                    <input id="border-color-input" type="color" name="border-color" value="#000000" class="color-input"
+                        hidden onchange="setBorderColor(this.value)">
+                    <label for="fill-color-input"><img class="fill-color-btn"
+                            src="design/input shapes/fill-color.svg"></label>
+                    <input id="fill-color-input" type="color" name="fill-color" value="#ffffff" class="color-input"
+                        hidden onchange="setFillColor(this.value)">
                 </div>
                 <div class="text-input-container">
                     <input type="text" placeholder="Write somthing..." id="meme-text" class="text-input"
                         onchange="setMemeTxt(this)">
                 </div>
-                <a class="fa-solids download" onclick="downloadCanvas(this)" download="my-canvas.jpg"></a>
                 <input type="file" class="file-input" name="image" onchange="onImgInput(event)" />
+                <a class="save-meme-btn" href="#" onclick="onAddMemeToSaved()">Add to saved memes</a>
+                <a class="fa-solids download" onclick="downloadCanvas(this)" download="my-canvas.jpg"></a>
 
                 <button class="share-btn" onclick="onUploadImg()">share</button>
             </div>
         </div>
     </div>
 
+    <div class="saved-memes-container" hidden>
+        <div class="meme-imgs-container"></div>
+    </div>
+
+    <main class="gallery-container">
+        <input type="text" class="search-filter" placeholder="Search" oninput="renderGalleryBySearch(this)">
+        <div class="img-container"></div>
+    </main>
 
 
-
-    <main class="img-container"></main>
-
+    <div id="about"></div>
 
 
 
@@ -102,7 +117,8 @@
         <ul class="social-links clean-list flex align-items space-between">
             <li><a href="https://www.facebook.com/maor.aknin.3" target="_blank" class="fa-brands facebook"></a></li>
             <li><a href="https://www.instagram.com/maor_aknin1/" target="_blank" class="fa-brands instagram"></a></li>
-            <li><a href="https://www.linkedin.com/in/maor-aknin-b63a46243/" target="_blank" class="fa-brands linkedin"></a></li>
+            <li><a href="https://www.linkedin.com/in/maor-aknin-b63a46243/" target="_blank"
+                    class="fa-brands linkedin"></a></li>
             <li><a href="https://github.com/Maoraknin" target="_blank" class="fa-brands gitHub"></a></li>
         </ul>
     </footer>
@@ -119,7 +135,7 @@
 
     </script>
 
-
+    <script src="js/service/storage.service.js"></script>
     <script src="js/service/gallery-service.js"></script>
     <script src="js/service/meme-service.js"></script>
     <script src="js/meme-controler.js"></script>
