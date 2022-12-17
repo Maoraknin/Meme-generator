@@ -213,8 +213,32 @@
     padding-left: 20px;
 }
 
-.save-meme-btn:hover{
+.save-meme-btn:hover {
     color: var(--clr4);
+}
+
+.stickers-grid-container {
+    margin: 20px 10px;
+    display: block;
+}
+
+
+.stickers-input-container {
+    display: grid;
+    margin: 0 auto;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    background-color: var(--clr2);
+    border: 1px solid #DEDEDE;
+    border-radius: 5px;
+
+}
+
+
+
+.stickers:hover{
+    cursor: pointer;
 }
 
 @media (max-width: 780px) {
@@ -244,8 +268,8 @@
 
     canvas {
         width: 45%;
-        width: 280px;
-        height: 280px;
+        width: 230px;
+        height: 230px;
         /* padding: 20px; */
     }
 
@@ -309,6 +333,19 @@
         right: 0;
         content: "X";
     }
+
+    .stickers-input-container {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 40px;
+        width: 62%;
+        min-width: 300px;
+    
+    }
+
+    .stickers{
+        font-size: 1.1rem;
+    }
+
 
 }
 
@@ -378,6 +415,16 @@
         margin: 0;
     }
 
+    .stickers-input-container {
+        grid-template-columns: 50px 50px 50px 50px 50px 50px;
+        grid-template-rows: 50px 50px;
+        width: 300px;
+    
+    }
+    .stickers{
+        font-size: 2rem;
+    }
+
 }
 
 @media (min-width: 980px) {
@@ -415,6 +462,16 @@
 
     .change-font-bar {
         width: 160px;
+    }
+
+    .stickers-input-container {
+        grid-template-columns: 77px 77px 77px 77px 77px 77px;
+        grid-template-rows: 77px 77px;
+        width: 486px;
+    
+    }
+    .stickers{
+        font-size: 3rem;
     }
 
 

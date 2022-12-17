@@ -20,6 +20,7 @@ function setMemeTxt() {
 function renderMeme(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
     const meme = getMeme()
+    if(meme.lines.length === 0) onAddTextLine()
     meme.lines.forEach(line => {
         drawText(line, line.x, line.y)
     });
@@ -53,6 +54,14 @@ function onAddTextLine() {
     renderMeme(gCurrElImg)
     document.querySelector('.second-row').classList.remove('active')
     document.querySelector('.first-row').classList.remove('active')
+}
+
+function onAddSticker(elSticker){
+    const meme = getMeme()
+    const sticker = elSticker.innerText
+    const line = addStickerLine(sticker)
+    meme.lines.push(line)
+    renderMeme(gCurrElImg)
 }
 
 
@@ -266,7 +275,8 @@ function onUploadImg() {
 
 
 function drawRect(line) {
-    if(line.width === 0) return
+    const meme = getMeme()
+    if(meme.lines.length === 0 ||line.width === 0) return
     let y
     if(line.baseLine === 'top') y = line.y
     else if(line.baseLine === 'middle') y = line.y - line.size / 2

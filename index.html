@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="design/head-icon/icon.png">
     <link rel="stylesheet" href="css/style.css">
-    <title>Document</title>
+    <title>Meme Generator</title>
 </head>
 
 <body onload="onInit()" class="main-layout">
@@ -88,6 +89,24 @@
                     <input type="text" placeholder="Write somthing..." id="meme-text" class="text-input"
                         onchange="setMemeTxt(this)">
                 </div>
+
+                <div class="stickers-grid-container">
+                <div class="stickers-input-container">
+                    <span class="stickers" onclick="onAddSticker(this)">🔥</span>
+                    <span class="stickers" onclick="onAddSticker(this)">😂</span>
+                    <span class="stickers" onclick="onAddSticker(this)">❤️</span>
+                    <span class="stickers" onclick="onAddSticker(this)">💀</span>
+                    <span class="stickers" onclick="onAddSticker(this)">👍</span>
+                    <span class="stickers" onclick="onAddSticker(this)">🥰</span>
+                    <span class="stickers" onclick="onAddSticker(this)">😉</span>
+                    <span class="stickers" onclick="onAddSticker(this)">🤔</span>
+                    <span class="stickers" onclick="onAddSticker(this)">💩</span>
+                    <span class="stickers" onclick="onAddSticker(this)">👑</span>
+                    <span class="stickers" onclick="onAddSticker(this)">🤯</span>
+                    <span class="stickers" onclick="onAddSticker(this)">😎</span>
+                </div>
+            </div>
+
                 <input type="file" class="file-input" name="image" onchange="onImgInput(event)" />
                 <a class="save-meme-btn" href="#" onclick="onAddMemeToSaved()">Add to saved memes</a>
                 <a class="fa-solids download" onclick="downloadCanvas(this)" download="my-canvas.jpg"></a>

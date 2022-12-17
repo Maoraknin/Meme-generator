@@ -156,6 +156,20 @@ function addTextLine() {
     return line
 }
 
+function addStickerLine(sticker){
+    const line = {
+        txt: sticker,
+        size: 40,
+        align: 'center',
+        style: 'Impact',
+        width: 40,
+        baseLine: 'middle',
+        x: gElCanvas.height / 2,
+        y: gElCanvas.height / 2,
+    }
+    return line
+}
+
 function moveText(x, y) {
     const line = getMemeLine()
     line.x += x
