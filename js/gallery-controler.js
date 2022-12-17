@@ -38,21 +38,25 @@ function renderGalleryBySearch(elInput){
     }
 }
 
-function resizeCanvas() {
+// console.log('gCurrElImg.naturalWidth:',gCurrElImg.naturalWidth)
+// console.log('gCurrElImg.naturalHeight:',gCurrElImg.naturalHeight)
+function resizeCanvas(elImg) {
     const elCanvas = document.getElementById('my-canvas')
     gElCanvas.width = elCanvas.offsetWidth
-    gElCanvas.height = elCanvas.offsetHeight
+    gElCanvas.height = (elImg.naturalHeight * gElCanvas.width) / elImg.naturalWidth
     gElCanvas = document.getElementById('my-canvas')
     gCtx.fillStyle = document.querySelector('input[name="fill-color"]').value
     gCtx.strokeStyle = document.querySelector('input[name="border-color"]').value
-    creategMeme()
 }
 
 function onImgSelect(elImg){
     openMemeLab()
-    resizeCanvas()
+    resizeCanvas(elImg)
+    creategMeme()
     setImg(elImg)
     renderMeme(elImg)
+    const elInput = document.querySelector('#meme-text')
+    elInput.value = ''
     
 }
 

@@ -152,6 +152,7 @@ function onSetAlignItems(value) {
 
 function renderImgFromUser(img) {
     gCurrElImg = img
+    resizeCanvas(img)
     renderMeme(gCurrElImg)
 }
 

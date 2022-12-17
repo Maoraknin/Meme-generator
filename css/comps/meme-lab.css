@@ -269,7 +269,7 @@
     canvas {
         width: 45%;
         width: 230px;
-        height: 230px;
+        /* height: 230px; */
         /* padding: 20px; */
     }
 
@@ -377,7 +377,7 @@
     canvas {
         width: 65%;
         width: 400px;
-        height: 400px;
+        /* height: 400px; */
     }
 
 

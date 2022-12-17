@@ -18,6 +18,7 @@ function createSavedMemes() {
 }
 
 function addSavedMeme(canvas) {
+    console.log(canvas);
     gSavedMemes.push(canvas.toDataURL())
     saveToStorage(SAVED_MEMES_KEY, gSavedMemes)
 }
@@ -50,6 +51,9 @@ function createImgs() {
         { id: 20, url: 'img/20.jpg', keywords: ['shout', 'angry'] },
         { id: 21, url: 'img/21.jpg', keywords: ['dancing', 'cute', 'optimistic'] },
         { id: 22, url: 'img/22.jpg', keywords: ['trump', 'celebrity', 'angry'] },
+        { id: 23, url: 'img/23.jpg', keywords: ['evil', 'bald', 'sarcasam'] },
+        { id: 23, url: 'img/24.jpg', keywords: ['dog', 'streching', 'cute'] },
+        { id: 25, url: 'img/25.jpg', keywords: ['opra', 'celebrity', 'happy'] },
     ];
 }
 
