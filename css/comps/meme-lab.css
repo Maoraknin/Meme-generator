@@ -255,7 +255,7 @@
     }
 
     .edit-meme-container {
-        min-height: 280px;
+        min-height: 300px;
     }
 
     .share-btn {
@@ -457,7 +457,6 @@
 
     .text-input-container {
         width: 486px;
-
     }
 
     .change-font-bar {

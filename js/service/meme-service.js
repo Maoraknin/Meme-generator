@@ -1,10 +1,13 @@
 'use strict'
 
+const SAVED_MEMES_IMG_KEY = 'saved-memes-img-DB'
 const SAVED_MEMES_KEY = 'saved-memes-DB'
+
 
 let gMeme
 let gImgs
 let gSavedMemes
+let gSavedMemesImg
 let gIsTextDrag = false
 
 
@@ -13,18 +16,22 @@ function getImgs() {
 }
 
 function createSavedMemes() {
+    gSavedMemesImg = loadFromStorage(SAVED_MEMES_IMG_KEY)
+    if (!gSavedMemesImg) gSavedMemesImg = []
     gSavedMemes = loadFromStorage(SAVED_MEMES_KEY)
     if (!gSavedMemes) gSavedMemes = []
 }
 
 function addSavedMeme(canvas) {
-    console.log(canvas);
-    gSavedMemes.push(canvas.toDataURL())
+    console.log(gSavedMemes);
+    gSavedMemes.push(gMeme)
+    gSavedMemesImg.push(canvas.toDataURL())
     saveToStorage(SAVED_MEMES_KEY, gSavedMemes)
+    saveToStorage(SAVED_MEMES_IMG_KEY, gSavedMemesImg)
 }
 
 function getSavedMemes() {
-    return gSavedMemes
+    return gSavedMemesImg
 }
 
 function createImgs() {
@@ -87,6 +94,12 @@ function creategMeme() {
     }
 }
 
+function setSavedgMeme(idx){
+    gSavedMemes = loadFromStorage(SAVED_MEMES_KEY)
+    gMeme = gSavedMemes[idx]
+
+}
+
 
 
 
@@ -108,7 +121,6 @@ function getTextClickedIdx(clickedPos) {
         return isClicked
     })
 
-    console.log('idx:', idx)
     return idx
 
 
@@ -193,33 +205,6 @@ function setAlignItems(value) {
     else if (value === 'center') line.x = gElCanvas.width / 2
     else line.x = 0
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function doUploadImg(imgDataUrl, onSuccess) {

@@ -20,7 +20,8 @@ function setMemeTxt() {
 function renderMeme(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
     const meme = getMeme()
-    if(meme.lines.length === 0) onAddTextLine()
+    console.log(meme);
+    if (meme.lines.length === 0) onAddTextLine()
     meme.lines.forEach(line => {
         drawText(line, line.x, line.y)
     });
@@ -28,13 +29,19 @@ function renderMeme(img) {
     drawRect(line)
 }
 
-function renderMemeForExporting(img){
+function renderMemeForExporting(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
     const meme = getMeme()
     meme.lines.forEach(line => {
         drawText(line, line.x, line.y)
     });
     const line = getMemeLine()
+}
+
+function setCurrElImg(meme){
+    const imgId = meme.selectedImgId
+    const img = gImgs.find(img => img.id = imgId)
+    gCurrElImg = document.getElementById(`${imgId}`)
 }
 
 
@@ -56,7 +63,7 @@ function onAddTextLine() {
     document.querySelector('.first-row').classList.remove('active')
 }
 
-function onAddSticker(elSticker){
+function onAddSticker(elSticker) {
     const meme = getMeme()
     const sticker = elSticker.innerText
     const line = addStickerLine(sticker)
@@ -90,11 +97,11 @@ function drawText(line, x, y) {
     gCtx.textBaseline = line.baseLine
     line.width = gCtx.measureText(text).width
     gCtx.fillText(text, x, y)
-    gCtx.strokeText(text, x, y) 
+    gCtx.strokeText(text, x, y)
 }
 
 
-function getTextWidth(){
+function getTextWidth() {
     return gCtx.measureText(text).width
 }
 
@@ -107,13 +114,10 @@ function onSwitchLine() {
     drawRect(line)
 }
 
-function renderCurrLine(meme, idx){
-    if (idx === 0) {
-        document.querySelector('.first-row').classList.add('active')
-        document.querySelector('.second-row').classList.remove('active')
-    } else if (idx === 1) {
-        document.querySelector('.second-row').classList.add('active')
-        document.querySelector('.first-row').classList.remove('active')
+function renderCurrLine(meme, idx) {
+    if (idx <= 1) {
+        document.querySelector('.first-row').classList.toggle('active')
+        document.querySelector('.second-row').classList.toggle('active')
     } else {
         document.querySelector('.second-row').classList.remove('active')
         document.querySelector('.first-row').classList.remove('active')
@@ -134,15 +138,11 @@ function onClearLine() {
     renderMeme(gCurrElImg)
 }
 
-
 function onChangeFontSize(value) {
     const line = getMemeLine()
     line.size += value
     renderMeme(gCurrElImg)
 }
-
-
-
 
 function onSetAlignItems(value) {
     setAlignItems(value)
@@ -157,6 +157,8 @@ function renderImgFromUser(img) {
 }
 
 function onImgInput(ev) {
+    creategMeme()
+    openMemeLab()
     loadImageFromInput(ev, renderImgFromUser)
 }
 
@@ -175,12 +177,10 @@ function loadImageFromInput(ev, onImageReady) {
 }
 
 
-
 function onDown(ev) {
     const meme = getMeme()
     const pos = getEvPos(ev)
     const idx = getTextClickedIdx(pos)
-    console.log(idx);
     if (idx === -1) return
     meme.selectedLineIdx = idx
     renderCurrLine(meme, idx)
@@ -213,9 +213,9 @@ function onUp() {
 function getEvPos(ev) {
     const line = getMemeLine()
     let diff = 0
-    if(line.align === 'left') diff = 0
-    if(line.align === 'center') diff = line.width / 2
-    if(line.align === 'right') diff = line.width
+    if (line.align === 'left') diff = 0
+    if (line.align === 'center') diff = line.width / 2
+    if (line.align === 'right') diff = line.width
     let pos = {
         x: ev.offsetX + diff,
         y: ev.offsetY,
@@ -227,7 +227,6 @@ function getEvPos(ev) {
             x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft + diff,
             y: ev.pageY - ev.target.offsetParent.offsetTop - ev.target.clientTop,
         }
-        console.log(pos);
     }
     return pos
 }
@@ -262,7 +261,7 @@ function downloadCanvas(elLink) {
     elLink.href = canvasContent
 }
 
-// FACEBOOK SHARE
+// FACEBOOK SHARE /////// SERVICE /////////
 
 function onUploadImg() {
     renderMemeForExporting(gCurrElImg)
@@ -277,15 +276,15 @@ function onUploadImg() {
 
 function drawRect(line) {
     const meme = getMeme()
-    if(meme.lines.length === 0 ||line.width === 0) return
+    if (meme.lines.length === 0 || line.width === 0) return
     let y
-    if(line.baseLine === 'top') y = line.y
-    else if(line.baseLine === 'middle') y = line.y - line.size / 2
-    else if(line.baseLine === 'bottom') y = line.y - line.size
+    if (line.baseLine === 'top') y = line.y
+    else if (line.baseLine === 'middle') y = line.y - line.size / 2
+    else if (line.baseLine === 'bottom') y = line.y - line.size
     let x
-    if(line.align === 'left') x = line.x
-    else if(line.align === 'center') x = line.x - line.width / 2
-    else if(line.align === 'right') x = line.x - line.width
+    if (line.align === 'left') x = line.x
+    else if (line.align === 'center') x = line.x - line.width / 2
+    else if (line.align === 'right') x = line.x - line.width
     gCtx.strokeStyle = 'black'
     gCtx.strokeRect(x, y, line.width, line.size)
 }

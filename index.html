@@ -10,6 +10,7 @@
     <title>Meme Generator</title>
 </head>
 
+
 <body onload="onInit()" class="main-layout">
 
     <div class="main-screen full"></div>
@@ -65,6 +66,7 @@
                         <option value="Lato">Lato</option>
                         <option value="roboto-medium">Roboto</option>
                         <option value="eurofurence">Eurofurence</option>
+                        <option value="rubik-bold">Rubik</option>
                     </select>
 
                     <button class="size-btn" onclick="onChangeFontSize(5)">A+</button>
@@ -107,7 +109,7 @@
                 </div>
             </div>
 
-                <input type="file" class="file-input" name="image" onchange="onImgInput(event)" />
+                <input type="file" class="file-input hidden" name="image" id="upload-file" onchange="onImgInput(event)"/>
                 <a class="save-meme-btn" href="#" onclick="onAddMemeToSaved()">Add to saved memes</a>
                 <a class="fa-solids download" onclick="downloadCanvas(this)" download="my-canvas.jpg"></a>
 
@@ -155,7 +157,6 @@
     </script>
 
     <script src="js/service/storage.service.js"></script>
-    <script src="js/service/gallery-service.js"></script>
     <script src="js/service/meme-service.js"></script>
     <script src="js/meme-controler.js"></script>
     <script src="js/gallery-controler.js"></script>

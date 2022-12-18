@@ -14,7 +14,7 @@ function onInit() {
 
 function renderGallery(){
     const imgs = getImgs()
-    let strHtml = ''
+    let strHtml = '<label for="upload-file" href="#"><img class="gallery-img" src="img/add-img.png"></label>'
     imgs.map(img => {
         strHtml += `<a href="#"><img class="gallery-img" id="${img.id}" onclick="onImgSelect(this)" src="${img.url}"></a>`
     })
@@ -28,7 +28,7 @@ function renderGalleryBySearch(elInput){
     if(value === '') renderGallery()
     else{
         const imgs = getImgs()
-        let strHtml = ''
+        let strHtml = '<label for="upload-file" href="#"><img class="gallery-img" src="img/add-img.png"></label>'
         const newImgs = imgs.filter(img => img.keywords.some(key => key.startsWith(value)))
         newImgs.map(img => {
             strHtml += `<a href="#"><img class="gallery-img" id="${img.id}" onclick="onImgSelect(this)" src="${img.url}"></a>`
@@ -60,11 +60,24 @@ function onImgSelect(elImg){
     
 }
 
+function onSavedMemeSelect(idx){
+    openMemeLab()
+    setSavedgMeme(idx)
+    const meme = getMeme()
+    setCurrElImg(meme)
+    setImg(gCurrElImg)
+    resizeCanvas(gCurrElImg)
+    renderMeme(gCurrElImg)
+    const elInput = document.querySelector('#meme-text')
+    elInput.value = ''
+    
+}
+
 function renderSavedMemes(){
     const savedMemes = getSavedMemes()
     let strHtml = ''
-    savedMemes.map(img => {
-        strHtml += `<a href="#"><img class="gallery-img" onclick="onImgSelect(this)" src="${img}"></a>`
+    savedMemes.map((img, idx) => {
+        strHtml += `<a href="#"><img class="gallery-img" onclick="onSavedMemeSelect(${idx})" src="${img}"></a>`
     })
     let elDiv = document.querySelector('.meme-imgs-container')
     elDiv.innerHTML = strHtml

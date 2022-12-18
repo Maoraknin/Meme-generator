@@ -1,6 +1,5 @@
 .logo {
 height: 32px;
-margin: 9px 0 9px 20px
     
 }
 
@@ -111,6 +110,11 @@ margin: 9px 0 9px 20px
 }
 
 @media (min-width: 781px) {
+
+    .logo {
+        margin: 9px 0 9px 20px
+            
+        }
 
     .menu-toggle-btn {
         display: none;
